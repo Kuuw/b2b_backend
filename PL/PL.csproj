@@ -13,8 +13,14 @@
   <ItemGroup>
     <Folder Include="ActionFilters\" />
     <Folder Include="FluentValidation\" />
-    <Folder Include="Middlewares\" />
-    <Folder Include="Controllers\" />
+	<Folder Include="Middlewares\" />
+	<Folder Include="Controllers\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\BL\BL.csproj" />
+    <ProjectReference Include="..\DAL\DAL.csproj" />
+    <ProjectReference Include="..\Entities\Entities.csproj" />
   </ItemGroup>
 
 </Project>
