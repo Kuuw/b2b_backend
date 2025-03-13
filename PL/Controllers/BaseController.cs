@@ -1,12 +1,17 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Entities.Models;
+using Microsoft.AspNetCore.Mvc;
 
 namespace PL.Controllers
 {
-    public class BaseController : Controller
+    public abstract class BaseController : ControllerBase
     {
-        public IActionResult Index()
+        protected IActionResult HandleServiceResult<T>(ServiceResult<T> result)
         {
-            return View();
+            if (result.Success)
+            {
+                return StatusCode(result.StatusCode, result.Data);
+            }
+            return StatusCode(result.StatusCode, result.ErrorMessage);
         }
     }
 }
