@@ -2,7 +2,7 @@
 
 namespace BL.Concrete
 {
-    class LogTypeService : ILogTypeService
+    class LogService : ILogService
     {
     }
 }

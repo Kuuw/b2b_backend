@@ -1,6 +1,6 @@
 ﻿namespace BL.Abstract
 {
-    public interface ILogTypeService
+    public interface ILogService
     {
     }
 }
