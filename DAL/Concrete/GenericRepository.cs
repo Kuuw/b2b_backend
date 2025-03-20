@@ -5,18 +5,18 @@ namespace DAL.Concrete
 {
     public class GenericRepository<T> : IGenericRepository<T> where T : class, new()
     {
-        //private readonly B2bContext _context = new B2bContext();
+        private readonly B2bContext _context = new B2bContext();
         private readonly DbSet<T> data;
 
         public GenericRepository()
         {
-            // data = _context.Set<T>();
+             data = _context.Set<T>();
         }
 
         public void Delete(T p)
         {
             data.Remove(p);
-            // _context.SaveChanges();
+            _context.SaveChanges();
         }
 
         public T? GetById(Guid id)
@@ -27,7 +27,7 @@ namespace DAL.Concrete
         public void Insert(T p)
         {
             data.Add(p);
-            //_context.SaveChanges();
+            _context.SaveChanges();
         }
 
         public List<T> List()
@@ -37,7 +37,7 @@ namespace DAL.Concrete
 
         public void Update(T p)
         {
-            //_context.SaveChanges();
+            _context.SaveChanges();
         }
 
         public List<T> Where(Func<T, bool> predicate)
