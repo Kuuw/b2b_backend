@@ -3,9 +3,9 @@
     public interface IGenericRepository<T>
     {
         List<T> List();
-        void Insert(T p);
-        void Delete(T p);
-        void Update(T p);
+        bool Insert(T p);
+        bool Delete(T p);
+        bool Update(T p);
         T? GetById(Guid id);
         List<T> Where(Func<T, bool> predicate);
     }

@@ -13,10 +13,16 @@ namespace DAL.Concrete
              data = _context.Set<T>();
         }
 
-        public void Delete(T p)
+        public bool Delete(T p)
         {
-            data.Remove(p);
-            _context.SaveChanges();
+            using (var dbContextTransaction = _context.Database.BeginTransaction())
+            {
+                data.Remove(p);
+                _context.SaveChanges();
+
+                dbContextTransaction.Commit();
+                return true;
+            }
         }
 
         public T? GetById(Guid id)
@@ -24,10 +30,16 @@ namespace DAL.Concrete
             return data.Find(id);
         }
 
-        public void Insert(T p)
+        public bool Insert(T p)
         {
-            data.Add(p);
-            _context.SaveChanges();
+            using (var dbContextTransaction = _context.Database.BeginTransaction())
+            {
+                data.Add(p);
+                _context.SaveChanges();
+
+                dbContextTransaction.Commit();
+                return true;
+            }
         }
 
         public List<T> List()
@@ -35,9 +47,14 @@ namespace DAL.Concrete
             return data.ToList();
         }
 
-        public void Update(T p)
+        public bool Update(T p)
         {
-            _context.SaveChanges();
+            using (var dbContextTransaction = _context.Database.BeginTransaction())
+            {
+                _context.SaveChanges();
+                dbContextTransaction.Commit();
+                return true;
+            }
         }
 
         public List<T> Where(Func<T, bool> predicate)
