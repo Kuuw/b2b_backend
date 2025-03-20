@@ -12,5 +12,12 @@ namespace BL.Concrete
             cfg.CreateMap<CompanyPostDto, Company>();
             cfg.CreateMap<CompanyPutDto, Company>();
         }
+
+        public static void AddPermissionMappings(this IMapperConfigurationExpression cfg)
+        {
+            cfg.CreateMap<Permission, PermissionGetDto>();
+            cfg.CreateMap<PermissionPostDto, Permission>();
+            cfg.CreateMap<PermissionPutDto, Permission>();
+        }
     }
 }

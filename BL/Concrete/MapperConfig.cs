@@ -10,6 +10,7 @@ namespace BL.Concrete
             var config = new MapperConfiguration(cfg =>
             {
                 cfg.AddCompanyMappings();
+                cfg.AddPermissionMappings();
             });
 
             var mapper = new Mapper(config);
