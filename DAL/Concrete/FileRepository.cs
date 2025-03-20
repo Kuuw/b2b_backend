@@ -7,23 +7,17 @@ namespace DAL.Concrete
     public class FileRepository : IFileRepository
     {
         private readonly BlobServiceClient _blobServiceClient;
-        private readonly string _containerName;
 
-        public FileRepository(string connectionString, string containerName)
+        public FileRepository(string connectionString)
         {
             _blobServiceClient = new BlobServiceClient(connectionString);
-            _containerName = containerName;
-
-            var containerClient = _blobServiceClient.GetBlobContainerClient(containerName);
-            containerClient.CreateIfNotExists();
-            containerClient.SetAccessPolicy(PublicAccessType.Blob);
         }
 
-        public string UploadFile(string fileName, Stream fileContent)
+        public string UploadFile(string containerName, string fileName, Stream fileContent)
         {
             try
             {
-                var containerClient = _blobServiceClient.GetBlobContainerClient(_containerName);
+                var containerClient = GetContainer(containerName);
 
                 var blobClient = containerClient.GetBlobClient(fileName);
 
@@ -38,11 +32,11 @@ namespace DAL.Concrete
             }
         }
 
-        public Stream GetFile(string fileName)
+        public Stream GetFile(string containerName, string fileName)
         {
             try
             {
-                var containerClient = _blobServiceClient.GetBlobContainerClient(_containerName);
+                var containerClient = GetContainer(containerName);
 
                 var blobClient = containerClient.GetBlobClient(fileName);
 
@@ -56,11 +50,11 @@ namespace DAL.Concrete
             }
         }
 
-        public void DeleteFile(string fileName)
+        public void DeleteFile(string containerName, string fileName)
         {
             try
             {
-                var containerClient = _blobServiceClient.GetBlobContainerClient(_containerName);
+                var containerClient = GetContainer(containerName);
 
                 var blobClient = containerClient.GetBlobClient(fileName);
 
@@ -71,6 +65,17 @@ namespace DAL.Concrete
                 Console.WriteLine($"Error deleting file: {ex.Message}");
                 throw;
             }
+        }
+
+        private BlobContainerClient GetContainer(string containerName)
+        {
+            var _containerName = containerName;
+
+            var containerClient = _blobServiceClient.GetBlobContainerClient(containerName);
+            containerClient.CreateIfNotExists();
+            containerClient.SetAccessPolicy(PublicAccessType.Blob);
+
+            return containerClient;
         }
     }
 }
