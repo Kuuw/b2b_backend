@@ -7,11 +7,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Concrete\" />
-    <Folder Include="Abstract\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="Azure.Storage.Blobs" Version="12.24.0" />
     <PackageReference Include="Azure.Storage.Common" Version="12.23.0" />
     <PackageReference Include="Azure.Storage.Queues" Version="12.22.0" />
