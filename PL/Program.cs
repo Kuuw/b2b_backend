@@ -54,7 +54,7 @@ builder.Services.AddScoped<ICountryRepository, CountryRepository>();
 builder.Services.AddScoped<IOrderRepository, OrderRepository>();
 builder.Services.AddScoped<IProductRepository, ProductRepository>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
-builder.Services.AddScoped<IFileRepository>(provider => new FileRepository(config["Azurite:connectionString"]!, config["Azurite:containerName"]!));
+builder.Services.AddScoped<IFileRepository>(provider => new FileRepository(config["Azurite:connectionString"]!));
 
 builder.Services
     .AddAuthentication(x =>
