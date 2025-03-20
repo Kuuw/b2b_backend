@@ -1,8 +1,6 @@
-﻿using Entities.Models;
-
-namespace DAL.Abstract
+﻿namespace DAL.Abstract
 {
-    interface IPermissionRepository : IGenericRepository<Permission>
+    public interface IPermissionRepository : IGenericRepository<Permission>
     {
     }
 }

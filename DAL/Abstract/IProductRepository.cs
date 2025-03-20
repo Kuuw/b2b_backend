@@ -1,8 +1,6 @@
-﻿using Entities.Models;
-
-namespace DAL.Abstract
+﻿namespace DAL.Abstract
 {
-    interface IProductRepository : IGenericRepository<Product>
+    public interface IProductRepository : IGenericRepository<Product>
     {
     }
 }

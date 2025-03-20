@@ -2,7 +2,7 @@
 
 namespace BL.Concrete
 {
-    class CountryService : ICountryService
+    public class CountryService : ICountryService
     {
     }
 }

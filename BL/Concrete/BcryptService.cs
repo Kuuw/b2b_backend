@@ -2,7 +2,7 @@
 
 namespace BL.Concrete
 {
-    class BcryptService : IBcryptService
+    public class BcryptService : IBcryptService
     {
     }
 }

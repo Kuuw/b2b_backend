@@ -1,8 +1,6 @@
-﻿using Entities.Models;
-
-namespace DAL.Abstract
+﻿namespace DAL.Abstract
 {
-    interface IUserRepository : IGenericRepository<User>
+    public interface IUserRepository : IGenericRepository<User>
     {
     }
 }

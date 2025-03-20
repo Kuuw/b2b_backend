@@ -1,9 +1,6 @@
-﻿using DAL.Abstract;
-using Entities.Models;
-
-namespace DAL.Abstract
+﻿namespace DAL.Abstract
 {
-    interface ILogTypeRepository : IGenericRepository<LogType>
+    public interface ILogTypeRepository : IGenericRepository<LogType>
     {
     }
 }

@@ -1,8 +1,6 @@
-﻿using Entities.Models;
-
-namespace DAL.Abstract
+﻿namespace DAL.Abstract
 {
-    interface IOrderRepository : IGenericRepository<Order>
+    public interface IOrderRepository : IGenericRepository<Order>
     {
     }
 }

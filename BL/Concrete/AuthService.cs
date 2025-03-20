@@ -2,7 +2,7 @@
 
 namespace BL.Concrete
 {
-    class AuthService : IAuthService
+    public class AuthService : IAuthService
     {
     }
 }

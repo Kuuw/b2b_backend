@@ -2,7 +2,7 @@
 
 namespace BL.Concrete
 {
-    class ProductService : IProductService
+    public class ProductService : IProductService
     {
     }
 }

@@ -2,7 +2,7 @@
 
 namespace BL.Concrete
 {
-    class DiscountService : IDiscountService
+    public class DiscountService : IDiscountService
     {
     }
 }

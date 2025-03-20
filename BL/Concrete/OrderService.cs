@@ -2,7 +2,7 @@
 
 namespace BL.Concrete
 {
-    class OrderService : IOrderService
+    public class OrderService : IOrderService
     {
     }
 }

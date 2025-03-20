@@ -2,7 +2,7 @@
 
 namespace BL.Concrete
 {
-    class PermissionService : IPermissionService
+    public class PermissionService : IPermissionService
     {
     }
 }

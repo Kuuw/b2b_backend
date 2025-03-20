@@ -2,7 +2,7 @@
 
 namespace BL.Concrete
 {
-    class MapperConfig : IMapperConfig
+    public class MapperConfig : IMapperConfig
     {
     }
 }

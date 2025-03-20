@@ -2,7 +2,7 @@
 
 namespace BL.Concrete
 {
-    class RoleService : IRoleService
+    public class RoleService : IRoleService
     {
     }
 }

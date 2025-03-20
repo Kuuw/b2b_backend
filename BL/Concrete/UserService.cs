@@ -2,7 +2,7 @@
 
 namespace BL.Concrete
 {
-    class UserService : IUserService
+    public class UserService : IUserService
     {
     }
 }

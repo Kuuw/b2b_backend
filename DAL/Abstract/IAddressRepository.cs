@@ -1,8 +1,6 @@
-﻿using Entities.Models;
-
-namespace DAL.Abstract
+﻿namespace DAL.Abstract
 {
-    interface IAddressRepository : IGenericRepository<Address>
+    public interface IAddressRepository : IGenericRepository<Address>
     {
     }
 }

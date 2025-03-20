@@ -2,7 +2,7 @@
 
 namespace BL.Concrete
 {
-    class CategoryService : ICategoryService
+    public class CategoryService : ICategoryService
     {
     }
 }

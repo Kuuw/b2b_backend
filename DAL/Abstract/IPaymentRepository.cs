@@ -1,8 +1,6 @@
-﻿using Entities.Models;
-
-namespace DAL.Abstract
+﻿namespace DAL.Abstract
 {
-    interface IPaymentRepository : IGenericRepository<Payment>
+    public interface IPaymentRepository : IGenericRepository<Payment>
     {
     }
 }

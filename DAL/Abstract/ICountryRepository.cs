@@ -1,8 +1,6 @@
-﻿using Entities.Models;
-
-namespace DAL.Abstract
+﻿namespace DAL.Abstract
 {
-    interface ICountryRepository : IGenericRepository<Country>
+    public interface ICountryRepository : IGenericRepository<Country>
     {
     }
 }

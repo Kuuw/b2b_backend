@@ -1,8 +1,6 @@
-﻿using Entities.Models;
-
-namespace DAL.Abstract
+﻿namespace DAL.Abstract
 {
-    interface IDiscountTypeRepository : IGenericRepository<DiscountType>
+    public interface IDiscountTypeRepository : IGenericRepository<DiscountType>
     {
     }
 }

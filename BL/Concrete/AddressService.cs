@@ -2,7 +2,7 @@
 
 namespace BL.Concrete
 {
-    class AddressService : IAddressService
+    public class AddressService : IAddressService
     {
     }
 }

@@ -1,8 +1,6 @@
-﻿using Entities.Models;
-
-namespace DAL.Abstract
+﻿namespace DAL.Abstract
 {
-    interface IStatusRepository : IGenericRepository<Status>
+    public interface IStatusRepository : IGenericRepository<Status>
     {
     }
 }

@@ -2,7 +2,7 @@
 
 namespace BL.Concrete
 {
-    class StatusService : IStatusService
+    public class StatusService : IStatusService
     {
     }
 }

@@ -1,8 +1,6 @@
-﻿using Entities.Models;
-
-namespace DAL.Abstract
+﻿namespace DAL.Abstract
 {
-    interface IRoleRepository : IGenericRepository<Role>
+    public interface IRoleRepository : IGenericRepository<Role>
     {
     }
 }

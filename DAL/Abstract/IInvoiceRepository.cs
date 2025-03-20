@@ -1,8 +1,6 @@
-﻿using Entities.Models;
-
-namespace DAL.Abstract
+﻿namespace DAL.Abstract
 {
-    interface IInvoiceRepository : IGenericRepository<Invoice>
+    public interface IInvoiceRepository : IGenericRepository<Invoice>
     {
     }
 }
