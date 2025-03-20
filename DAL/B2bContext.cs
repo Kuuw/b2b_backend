@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using Entities.Models;
 using Microsoft.EntityFrameworkCore;
-using Entities.Models;
 
 namespace DAL;
 
@@ -64,89 +62,114 @@ public partial class B2bContext : DbContext
     {
         modelBuilder.Entity<Address>(entity =>
         {
-            entity.Property(e => e.AddressId)
-                .HasDefaultValueSql("(newid())")
-                .HasColumnName("AddressID");
-            entity.Property(e => e.AddressTypeId).HasColumnName("AddressTypeID");
-            entity.Property(e => e.City)
-                .HasMaxLength(50)
-                .IsUnicode(false);
-            entity.Property(e => e.CountryId).HasColumnName("CountryID");
-            entity.Property(e => e.PostalCode)
-                .HasMaxLength(20)
-                .IsUnicode(false);
-            entity.Property(e => e.State)
-                .HasMaxLength(50)
-                .IsUnicode(false);
-            entity.Property(e => e.Street)
-                .HasMaxLength(100)
-                .IsUnicode(false);
-            entity.Property(e => e.UserId).HasColumnName("UserID");
+            entity.HasKey(e => e.AddressId).HasName("PK__Addresse__091C2AFB993BC4EB");
+
+            entity.Property(e => e.AddressId).HasDefaultValueSql("(newid())");
+            entity.Property(e => e.City).HasMaxLength(127);
+            entity.Property(e => e.CreatedAt)
+                .HasDefaultValueSql("(getdate())")
+                .HasColumnType("datetime");
+            entity.Property(e => e.PhoneNumber).HasMaxLength(20);
+            entity.Property(e => e.PostalCode).HasMaxLength(20);
+            entity.Property(e => e.State).HasMaxLength(127);
+            entity.Property(e => e.StreetAddress).HasMaxLength(255);
+            entity.Property(e => e.UpdatedAt)
+                .HasDefaultValueSql("(getdate())")
+                .HasColumnType("datetime");
 
             entity.HasOne(d => d.AddressType).WithMany(p => p.Addresses)
                 .HasForeignKey(d => d.AddressTypeId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK_Addresses_AddressTypeID");
+                .HasConstraintName("FK_Addresses_AddressType");
 
             entity.HasOne(d => d.Country).WithMany(p => p.Addresses)
                 .HasForeignKey(d => d.CountryId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK_Addresses_CountryID");
-
-            entity.HasOne(d => d.User).WithMany(p => p.Addresses)
-                .HasForeignKey(d => d.UserId)
-                .HasConstraintName("FK_Addresses_UserID");
+                .HasConstraintName("FK_Addresses_Country");
         });
 
         modelBuilder.Entity<AddressType>(entity =>
         {
-            entity.HasIndex(e => e.TypeName, "UQ_AddressTypes_TypeName").IsUnique();
+            entity.HasKey(e => e.AddressTypeId).HasName("PK__AddressT__8BF56C218037B2CC");
 
-            entity.Property(e => e.AddressTypeId)
-                .HasDefaultValueSql("(newid())")
-                .HasColumnName("AddressTypeID");
-            entity.Property(e => e.TypeName)
-                .HasMaxLength(50)
-                .IsUnicode(false);
+            entity.HasIndex(e => e.TypeName, "UQ__AddressT__D4E7DFA82BE384AC").IsUnique();
+
+            entity.Property(e => e.AddressTypeId).HasDefaultValueSql("(newid())");
+            entity.Property(e => e.CreatedAt)
+                .HasDefaultValueSql("(getdate())")
+                .HasColumnType("datetime");
+            entity.Property(e => e.Description).HasMaxLength(255);
+            entity.Property(e => e.TypeName).HasMaxLength(50);
+            entity.Property(e => e.UpdatedAt)
+                .HasDefaultValueSql("(getdate())")
+                .HasColumnType("datetime");
         });
 
         modelBuilder.Entity<Category>(entity =>
         {
-            entity.HasIndex(e => e.CategoryName, "UQ_Categories_CategoryName").IsUnique();
+            entity.HasKey(e => e.CategoryId).HasName("PK__Categori__19093A0B5CB102D0");
 
-            entity.Property(e => e.CategoryId)
-                .HasDefaultValueSql("(newid())")
-                .HasColumnName("CategoryID");
-            entity.Property(e => e.CategoryName)
-                .HasMaxLength(100)
-                .IsUnicode(false);
+            entity.HasIndex(e => e.CategoryName, "UQ__Categori__8517B2E0C08248B2").IsUnique();
+
+            entity.Property(e => e.CategoryId).HasDefaultValueSql("(newid())");
+            entity.Property(e => e.CategoryDescription).HasMaxLength(255);
+            entity.Property(e => e.CategoryName).HasMaxLength(50);
+            entity.Property(e => e.CreatedAt)
+                .HasDefaultValueSql("(getdate())")
+                .HasColumnType("datetime");
+            entity.Property(e => e.UpdatedAt)
+                .HasDefaultValueSql("(getdate())")
+                .HasColumnType("datetime");
         });
 
         modelBuilder.Entity<Company>(entity =>
         {
-            entity.HasIndex(e => e.CompanyName, "UQ_Companies_CompanyName").IsUnique();
+            entity.HasKey(e => e.CompanyId).HasName("PK__Companie__2D971CACA934F063");
 
-            entity.Property(e => e.CompanyId)
-                .HasDefaultValueSql("(newid())")
-                .HasColumnName("CompanyID");
-            entity.Property(e => e.CompanyName)
-                .HasMaxLength(100)
-                .IsUnicode(false);
+            entity.HasIndex(e => e.TaxNumber, "UQ__Companie__34A7C179BFB099DA").IsUnique();
+
+            entity.HasIndex(e => e.Email, "UQ__Companie__A9D10534F98B8AD5").IsUnique();
+
+            entity.Property(e => e.CompanyId).HasDefaultValueSql("(newid())");
+            entity.Property(e => e.CompanyName).HasMaxLength(127);
+            entity.Property(e => e.CreatedAt)
+                .HasDefaultValueSql("(getdate())")
+                .HasColumnType("datetime");
+            entity.Property(e => e.Email).HasMaxLength(127);
+            entity.Property(e => e.LogoUrl)
+                .HasMaxLength(255)
+                .HasColumnName("LogoURL");
+            entity.Property(e => e.TaxNumber).HasMaxLength(127);
+            entity.Property(e => e.UpdatedAt)
+                .HasDefaultValueSql("(getdate())")
+                .HasColumnType("datetime");
+            entity.Property(e => e.Website).HasMaxLength(255);
+
+            entity.HasOne(d => d.Address).WithMany(p => p.Companies)
+                .HasForeignKey(d => d.AddressId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_Companies_Address");
+
+            entity.HasOne(d => d.Status).WithMany(p => p.Companies)
+                .HasForeignKey(d => d.StatusId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_Companies_Status");
         });
 
         modelBuilder.Entity<Country>(entity =>
         {
-            entity.HasIndex(e => e.CountryCode, "UQ_Countries_CountryCode").IsUnique();
+            entity.HasKey(e => e.CountryId).HasName("PK__Countrie__10D1609F51F95377");
 
-            entity.Property(e => e.CountryId)
-                .HasDefaultValueSql("(newid())")
-                .HasColumnName("CountryID");
-            entity.Property(e => e.CountryCode)
-                .HasMaxLength(10)
-                .IsUnicode(false);
-            entity.Property(e => e.CountryName)
-                .HasMaxLength(100)
-                .IsUnicode(false);
+            entity.HasIndex(e => e.CountryName, "UQ__Countrie__E056F2016031B75E").IsUnique();
+
+            entity.Property(e => e.CountryId).HasDefaultValueSql("(newid())");
+            entity.Property(e => e.CountryName).HasMaxLength(50);
+            entity.Property(e => e.CreatedAt)
+                .HasDefaultValueSql("(getdate())")
+                .HasColumnType("datetime");
+            entity.Property(e => e.UpdatedAt)
+                .HasDefaultValueSql("(getdate())")
+                .HasColumnType("datetime");
         });
 
         modelBuilder.Entity<Discount>(entity =>
@@ -180,23 +203,26 @@ public partial class B2bContext : DbContext
 
         modelBuilder.Entity<Invoice>(entity =>
         {
-            entity.HasIndex(e => e.InvoiceNumber, "UQ_Invoices_InvoiceNumber").IsUnique();
+            entity.HasKey(e => e.InvoiceId).HasName("PK__Invoices__D796AAB53DCBF4F0");
 
-            entity.Property(e => e.InvoiceId)
-                .HasDefaultValueSql("(newid())")
-                .HasColumnName("InvoiceID");
-            entity.Property(e => e.DueDate).HasColumnType("datetime");
-            entity.Property(e => e.InvoiceDate).HasColumnType("datetime");
-            entity.Property(e => e.InvoiceNumber)
-                .HasMaxLength(50)
-                .IsUnicode(false);
-            entity.Property(e => e.OrderId).HasColumnName("OrderID");
-            entity.Property(e => e.TotalAmount).HasColumnType("decimal(18, 2)");
+            entity.Property(e => e.InvoiceId).HasDefaultValueSql("(newid())");
+            entity.Property(e => e.CreatedAt)
+                .HasDefaultValueSql("(getdate())")
+                .HasColumnType("datetime");
+            entity.Property(e => e.Currency).HasMaxLength(10);
+            entity.Property(e => e.UpdatedAt)
+                .HasDefaultValueSql("(getdate())")
+                .HasColumnType("datetime");
+
+            entity.HasOne(d => d.Company).WithMany(p => p.Invoices)
+                .HasForeignKey(d => d.CompanyId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_Invoices_Company");
 
             entity.HasOne(d => d.Order).WithMany(p => p.Invoices)
                 .HasForeignKey(d => d.OrderId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK_Invoices_OrderID");
+                .HasConstraintName("FK_Invoices_Order");
         });
 
         modelBuilder.Entity<Log>(entity =>
@@ -238,100 +264,109 @@ public partial class B2bContext : DbContext
 
         modelBuilder.Entity<Order>(entity =>
         {
-            entity.Property(e => e.OrderId)
-                .HasDefaultValueSql("(newid())")
-                .HasColumnName("OrderID");
-            entity.Property(e => e.DiscountId).HasColumnName("DiscountID");
-            entity.Property(e => e.OrderDate)
+            entity.HasKey(e => e.OrderId).HasName("PK__Orders__C3905BCF77182DE8");
+
+            entity.Property(e => e.OrderId).HasDefaultValueSql("(newid())");
+            entity.Property(e => e.CreatedAt)
                 .HasDefaultValueSql("(getdate())")
                 .HasColumnType("datetime");
-            entity.Property(e => e.StatusId).HasColumnName("StatusID");
-            entity.Property(e => e.TotalAmount).HasColumnType("decimal(18, 2)");
-            entity.Property(e => e.UserId).HasColumnName("UserID");
-
-            entity.HasOne(d => d.Discount).WithMany(p => p.Orders)
-                .HasForeignKey(d => d.DiscountId)
-                .HasConstraintName("FK_Orders_DiscountID");
+            entity.Property(e => e.UpdatedAt)
+                .HasDefaultValueSql("(getdate())")
+                .HasColumnType("datetime");
 
             entity.HasOne(d => d.Status).WithMany(p => p.Orders)
                 .HasForeignKey(d => d.StatusId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK_Orders_StatusID");
+                .HasConstraintName("FK_Orders_Status");
 
             entity.HasOne(d => d.User).WithMany(p => p.Orders)
                 .HasForeignKey(d => d.UserId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK_Orders_UserID");
+                .HasConstraintName("FK_Orders_User");
         });
 
         modelBuilder.Entity<OrderItem>(entity =>
         {
-            entity.Property(e => e.OrderItemId)
-                .HasDefaultValueSql("(newid())")
-                .HasColumnName("OrderItemID");
-            entity.Property(e => e.OrderId).HasColumnName("OrderID");
-            entity.Property(e => e.ProductId).HasColumnName("ProductID");
-            entity.Property(e => e.UnitPrice).HasColumnType("decimal(18, 2)");
+            entity.HasKey(e => new { e.OrderId, e.ProductId }).HasName("PK__OrderIte__08D097A3AA748B81");
+
+            entity.Property(e => e.Currency).HasMaxLength(10);
 
             entity.HasOne(d => d.Order).WithMany(p => p.OrderItems)
                 .HasForeignKey(d => d.OrderId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK_OrderItems_OrderID");
+                .HasConstraintName("FK_OrderItems_Order");
 
             entity.HasOne(d => d.Product).WithMany(p => p.OrderItems)
                 .HasForeignKey(d => d.ProductId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK_OrderItems_ProductID");
+                .HasConstraintName("FK_OrderItems_Product");
         });
 
         modelBuilder.Entity<Payment>(entity =>
         {
-            entity.Property(e => e.PaymentId)
-                .HasDefaultValueSql("(newid())")
-                .HasColumnName("PaymentID");
-            entity.Property(e => e.InvoiceId).HasColumnName("InvoiceID");
-            entity.Property(e => e.PaymentAmount).HasColumnType("decimal(18, 2)");
+            entity.HasKey(e => e.PaymentId).HasName("PK__Payments__9B556A381B5E480D");
+
+            entity.Property(e => e.PaymentId).HasDefaultValueSql("(newid())");
+            entity.Property(e => e.CreatedAt)
+                .HasDefaultValueSql("(getdate())")
+                .HasColumnType("datetime");
+            entity.Property(e => e.Currency).HasMaxLength(10);
             entity.Property(e => e.PaymentDate).HasColumnType("datetime");
-            entity.Property(e => e.PaymentMethod)
-                .HasMaxLength(50)
-                .IsUnicode(false);
+            entity.Property(e => e.TransactionReference).HasMaxLength(100);
+            entity.Property(e => e.UpdatedAt)
+                .HasDefaultValueSql("(getdate())")
+                .HasColumnType("datetime");
 
             entity.HasOne(d => d.Invoice).WithMany(p => p.Payments)
                 .HasForeignKey(d => d.InvoiceId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK_Payments_InvoiceID");
+                .HasConstraintName("FK_Payments_Invoice");
         });
 
         modelBuilder.Entity<Permission>(entity =>
         {
-            entity.HasIndex(e => e.PermissionName, "UQ_Permissions_PermissionName").IsUnique();
+            entity.HasKey(e => e.PermissionId).HasName("PK__Permissi__EFA6FB2FCCDFDA36");
 
-            entity.Property(e => e.PermissionId)
-                .HasDefaultValueSql("(newid())")
-                .HasColumnName("PermissionID");
-            entity.Property(e => e.PermissionName)
-                .HasMaxLength(100)
-                .IsUnicode(false);
+            entity.HasIndex(e => e.PermissionName, "UQ__Permissi__0FFDA35765F262E0").IsUnique();
+
+            entity.Property(e => e.PermissionId).HasDefaultValueSql("(newid())");
+            entity.Property(e => e.CreatedAt)
+                .HasDefaultValueSql("(getdate())")
+                .HasColumnType("datetime");
+            entity.Property(e => e.Description).HasMaxLength(255);
+            entity.Property(e => e.PermissionName).HasMaxLength(127);
+            entity.Property(e => e.UpdatedAt)
+                .HasDefaultValueSql("(getdate())")
+                .HasColumnType("datetime");
         });
 
         modelBuilder.Entity<Product>(entity =>
         {
-            entity.HasIndex(e => e.ProductName, "UQ_Products_ProductName").IsUnique();
+            entity.HasKey(e => e.ProductId).HasName("PK__Products__B40CC6CDEBBB4E7F");
 
-            entity.Property(e => e.ProductId)
-                .HasDefaultValueSql("(newid())")
-                .HasColumnName("ProductID");
-            entity.Property(e => e.CategoryId).HasColumnName("CategoryID");
-            entity.Property(e => e.Price).HasColumnType("decimal(18, 2)");
-            entity.Property(e => e.ProductDescription).IsUnicode(false);
-            entity.Property(e => e.ProductName)
-                .HasMaxLength(100)
-                .IsUnicode(false);
+            entity.HasIndex(e => e.ProductCode, "UQ__Products__2F4E024FE28AC0DE").IsUnique();
+
+            entity.Property(e => e.ProductId).HasDefaultValueSql("(newid())");
+            entity.Property(e => e.CreatedAt)
+                .HasDefaultValueSql("(getdate())")
+                .HasColumnType("datetime");
+            entity.Property(e => e.Currency).HasMaxLength(10);
+            entity.Property(e => e.Description).HasMaxLength(255);
+            entity.Property(e => e.ProductCode).HasMaxLength(50);
+            entity.Property(e => e.ProductName).HasMaxLength(127);
+            entity.Property(e => e.UpdatedAt)
+                .HasDefaultValueSql("(getdate())")
+                .HasColumnType("datetime");
 
             entity.HasOne(d => d.Category).WithMany(p => p.Products)
                 .HasForeignKey(d => d.CategoryId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK_Products_CategoryID");
+                .HasConstraintName("FK_Products_Category");
+
+            entity.HasOne(d => d.Status).WithMany(p => p.Products)
+                .HasForeignKey(d => d.StatusId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_Products_Status");
         });
 
         modelBuilder.Entity<ProductImage>(entity =>
@@ -358,30 +393,34 @@ public partial class B2bContext : DbContext
 
         modelBuilder.Entity<ProductStock>(entity =>
         {
-            entity.Property(e => e.ProductStockId)
-                .HasDefaultValueSql("(newid())")
-                .HasColumnName("ProductStockID");
-            entity.Property(e => e.LastUpdated)
+            entity.HasKey(e => e.ProductId).HasName("PK__ProductS__B40CC6CD42D37022");
+
+            entity.Property(e => e.ProductId).ValueGeneratedNever();
+            entity.Property(e => e.UpdatedAt)
                 .HasDefaultValueSql("(getdate())")
                 .HasColumnType("datetime");
-            entity.Property(e => e.ProductId).HasColumnName("ProductID");
 
-            entity.HasOne(d => d.Product).WithMany(p => p.ProductStocks)
-                .HasForeignKey(d => d.ProductId)
+            entity.HasOne(d => d.Product).WithOne(p => p.ProductStock)
+                .HasForeignKey<ProductStock>(d => d.ProductId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK_ProductStocks_ProductID");
+                .HasConstraintName("FK_ProductStocks_Product");
         });
 
         modelBuilder.Entity<Role>(entity =>
         {
-            entity.HasIndex(e => e.RoleName, "UQ_Roles_RoleName").IsUnique();
+            entity.HasKey(e => e.RoleId).HasName("PK__Roles__8AFACE1A8DCBE58E");
 
-            entity.Property(e => e.RoleId)
-                .HasDefaultValueSql("(newid())")
-                .HasColumnName("RoleID");
-            entity.Property(e => e.RoleName)
-                .HasMaxLength(50)
-                .IsUnicode(false);
+            entity.HasIndex(e => e.RoleName, "UQ__Roles__8A2B6160FA8FC973").IsUnique();
+
+            entity.Property(e => e.RoleId).HasDefaultValueSql("(newid())");
+            entity.Property(e => e.CreatedAt)
+                .HasDefaultValueSql("(getdate())")
+                .HasColumnType("datetime");
+            entity.Property(e => e.Description).HasMaxLength(255);
+            entity.Property(e => e.RoleName).HasMaxLength(127);
+            entity.Property(e => e.UpdatedAt)
+                .HasDefaultValueSql("(getdate())")
+                .HasColumnType("datetime");
 
             entity.HasMany(d => d.Permissions).WithMany(p => p.Roles)
                 .UsingEntity<Dictionary<string, object>>(
@@ -389,59 +428,72 @@ public partial class B2bContext : DbContext
                     r => r.HasOne<Permission>().WithMany()
                         .HasForeignKey("PermissionId")
                         .OnDelete(DeleteBehavior.ClientSetNull)
-                        .HasConstraintName("FK_RolePermissions_PermissionID"),
+                        .HasConstraintName("FK_RolePermissions_Permission"),
                     l => l.HasOne<Role>().WithMany()
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.ClientSetNull)
-                        .HasConstraintName("FK_RolePermissions_RoleID"),
+                        .HasConstraintName("FK_RolePermissions_Role"),
                     j =>
                     {
-                        j.HasKey("RoleId", "PermissionId");
+                        j.HasKey("RoleId", "PermissionId").HasName("PK__RolePerm__6400A1A8917BDFEC");
                         j.ToTable("RolePermissions");
-                        j.IndexerProperty<Guid>("RoleId").HasColumnName("RoleID");
-                        j.IndexerProperty<Guid>("PermissionId").HasColumnName("PermissionID");
                     });
         });
 
         modelBuilder.Entity<Status>(entity =>
         {
-            entity.HasIndex(e => e.StatusName, "UQ_Statuses_StatusName").IsUnique();
+            entity.HasKey(e => e.StatusId).HasName("PK__Statuses__C8EE20635EB052E1");
 
-            entity.Property(e => e.StatusId)
-                .HasDefaultValueSql("(newid())")
-                .HasColumnName("StatusID");
-            entity.Property(e => e.StatusName)
-                .HasMaxLength(50)
-                .IsUnicode(false);
+            entity.HasIndex(e => e.StatusName, "UQ__Statuses__05E7698A7B5C18AB").IsUnique();
+
+            entity.Property(e => e.StatusId).HasDefaultValueSql("(newid())");
+            entity.Property(e => e.CreatedAt)
+                .HasDefaultValueSql("(getdate())")
+                .HasColumnType("datetime");
+            entity.Property(e => e.Description).HasMaxLength(255);
+            entity.Property(e => e.StatusName).HasMaxLength(127);
+            entity.Property(e => e.UpdatedAt)
+                .HasDefaultValueSql("(getdate())")
+                .HasColumnType("datetime");
         });
 
         modelBuilder.Entity<User>(entity =>
         {
-            entity.HasIndex(e => e.Email, "UQ_Users_Email").IsUnique();
+            entity.HasKey(e => e.UserId).HasName("PK__Users__1788CC4C6CCB935F");
 
-            entity.Property(e => e.UserId)
-                .HasDefaultValueSql("(newid())")
-                .HasColumnName("UserID");
-            entity.Property(e => e.CompanyId).HasColumnName("CompanyID");
+            entity.HasIndex(e => e.PhoneNumber, "UQ__Users__85FB4E3802FBB9A1").IsUnique();
+
+            entity.HasIndex(e => e.Email, "UQ__Users__A9D1053446082CE9").IsUnique();
+
+            entity.Property(e => e.UserId).HasDefaultValueSql("(newid())");
             entity.Property(e => e.CreatedAt)
                 .HasDefaultValueSql("(getdate())")
                 .HasColumnType("datetime");
-            entity.Property(e => e.Email)
-                .HasMaxLength(100)
-                .IsUnicode(false);
-            entity.Property(e => e.FirstName)
-                .HasMaxLength(50)
-                .IsUnicode(false);
-            entity.Property(e => e.LastName)
-                .HasMaxLength(50)
-                .IsUnicode(false);
-            entity.Property(e => e.PasswordHash)
-                .HasMaxLength(200)
-                .IsUnicode(false);
+            entity.Property(e => e.Email).HasMaxLength(255);
+            entity.Property(e => e.FirstName).HasMaxLength(127);
+            entity.Property(e => e.LastLoginAt).HasColumnType("datetime");
+            entity.Property(e => e.LastName).HasMaxLength(127);
+            entity.Property(e => e.PasswordHash).HasMaxLength(255);
+            entity.Property(e => e.PhoneNumber).HasMaxLength(20);
+            entity.Property(e => e.ProfileImageUrl).HasMaxLength(255);
+            entity.Property(e => e.UpdatedAt)
+                .HasDefaultValueSql("(getdate())")
+                .HasColumnType("datetime");
 
             entity.HasOne(d => d.Company).WithMany(p => p.Users)
                 .HasForeignKey(d => d.CompanyId)
-                .HasConstraintName("FK_Users_Companies");
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_Users_Company");
+
+            entity.HasOne(d => d.Role).WithMany(p => p.Users)
+                .HasForeignKey(d => d.RoleId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_Users_Role");
+
+            entity.HasOne(d => d.Status).WithMany(p => p.Users)
+                .HasForeignKey(d => d.StatusId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_Users_Status");
         });
 
         OnModelCreatingPartial(modelBuilder);

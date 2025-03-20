@@ -11,6 +11,4 @@ public partial class Discount
     public string? Description { get; set; }
 
     public virtual DiscountType DiscountType { get; set; } = null!;
-
-    public virtual ICollection<Order> Orders { get; set; } = new List<Order>();
 }

@@ -6,7 +6,11 @@ public partial class Country
 
     public string CountryName { get; set; } = null!;
 
-    public string CountryCode { get; set; } = null!;
+    public int PhoneCode { get; set; }
+
+    public DateTime CreatedAt { get; set; }
+
+    public DateTime UpdatedAt { get; set; }
 
     public virtual ICollection<Address> Addresses { get; set; } = new List<Address>();
 }

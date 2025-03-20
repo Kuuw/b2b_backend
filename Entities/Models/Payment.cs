@@ -6,11 +6,17 @@ public partial class Payment
 
     public Guid InvoiceId { get; set; }
 
-    public string PaymentMethod { get; set; } = null!;
-
     public DateTime PaymentDate { get; set; }
 
-    public decimal PaymentAmount { get; set; }
+    public double Amount { get; set; }
+
+    public string Currency { get; set; } = null!;
+
+    public string TransactionReference { get; set; } = null!;
+
+    public DateTime CreatedAt { get; set; }
+
+    public DateTime UpdatedAt { get; set; }
 
     public virtual Invoice Invoice { get; set; } = null!;
 }

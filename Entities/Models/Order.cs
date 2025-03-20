@@ -6,15 +6,15 @@ public partial class Order
 
     public Guid UserId { get; set; }
 
-    public Guid? DiscountId { get; set; }
-
     public Guid StatusId { get; set; }
 
-    public DateTime OrderDate { get; set; }
+    public Guid ShippingAddressId { get; set; }
 
-    public decimal TotalAmount { get; set; }
+    public Guid InvoiceAddressId { get; set; }
 
-    public virtual Discount? Discount { get; set; }
+    public DateTime CreatedAt { get; set; }
+
+    public DateTime UpdatedAt { get; set; }
 
     public virtual ICollection<Invoice> Invoices { get; set; } = new List<Invoice>();
 
