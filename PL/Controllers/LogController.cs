@@ -4,6 +4,9 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace PL.Controllers
 {
+    [ApiController]
+    [Route("[controller]")]
+    [ApiVersion("1.0")]
     public class LogController : BaseController
     {
         private readonly ILogService _logService;

@@ -4,6 +4,9 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace PL.Controllers
 {
+    [ApiController]
+    [Route("[controller]")]
+    [ApiVersion("1.0")]
     public class CompanyController : BaseController
     {
         private readonly ICompanyService _companyService;
