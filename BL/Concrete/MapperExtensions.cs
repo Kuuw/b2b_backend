@@ -19,5 +19,14 @@ namespace BL.Concrete
             cfg.CreateMap<PermissionPostDto, Permission>();
             cfg.CreateMap<PermissionPutDto, Permission>();
         }
+
+        public static void AddLogMappings(this IMapperConfigurationExpression cfg)
+        {
+            cfg.CreateMap<Log, LogGetDto>();
+            cfg.CreateMap<LogPostDto, Log>();
+            cfg.CreateMap<LogType, LogTypeGetDto>();
+            cfg.CreateMap<LogTypePostDto, LogType>();
+            cfg.CreateMap<LogTypePutDto, LogType>();
+        }
     }
 }

@@ -11,6 +11,7 @@ namespace BL.Concrete
             {
                 cfg.AddCompanyMappings();
                 cfg.AddPermissionMappings();
+                cfg.AddLogMappings();
             });
 
             var mapper = new Mapper(config);
