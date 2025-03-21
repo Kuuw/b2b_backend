@@ -10,7 +10,7 @@ namespace DAL.Concrete
 
         public GenericRepository()
         {
-             data = _context.Set<T>();
+            data = _context.Set<T>();
         }
 
         public bool Delete(T p)
@@ -60,6 +60,11 @@ namespace DAL.Concrete
         public List<T> Where(Func<T, bool> predicate)
         {
             return data.Where(predicate).ToList();
+        }
+
+        public List<T> GetPaged(int page, int pageSize)
+        {
+            return data.Skip((page - 1) * pageSize).Take(pageSize).ToList();
         }
     }
 }
