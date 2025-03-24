@@ -12,6 +12,22 @@ namespace BL.Concrete
                 cfg.AddCompanyMappings();
                 cfg.AddPermissionMappings();
                 cfg.AddLogMappings();
+                cfg.AddUserMappings();
+                cfg.AddRoleMappings();
+                cfg.AddProductMappings();
+                cfg.AddProductImageMappings();
+                cfg.AddDiscountTypeMappings();
+                cfg.AddDiscountMappings();
+                cfg.AddOrderMappings();
+                cfg.AddAddressMappings();
+                cfg.AddStatusMappings();
+                cfg.AddOrderItemMappings();
+                cfg.AddInvoiceMappings();
+                cfg.AddPaymentMappings();
+                cfg.AddProductStockMappings();
+                cfg.AddCategoryMappings();
+                cfg.AddCountryMappings();
+                cfg.AddAddressTypeMappings();
             });
 
             var mapper = new Mapper(config);
