@@ -12,5 +12,5 @@ public partial class LogGetDto
 
     public DateTime CreatedAt { get; set; }
 
-    public virtual LogType LogType { get; set; } = null!;
+    public virtual LogTypeGetDto LogType { get; set; } = null!;
 }

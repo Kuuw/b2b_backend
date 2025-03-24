@@ -14,8 +14,8 @@ public partial class CompanyGetDto
 
     public string? LogoUrl { get; set; }
 
-    public virtual Address Address { get; set; } = null!;
+    public virtual AddressGetDto Address { get; set; } = null!;
 
-    public virtual Status Status { get; set; } = null!;
+    public virtual StatusGetDto Status { get; set; } = null!;
 }
 

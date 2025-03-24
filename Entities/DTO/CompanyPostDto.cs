@@ -1,6 +1,4 @@
-﻿using Entities.Models;
-
-namespace Entities.DTO;
+﻿namespace Entities.DTO;
 
 public partial class CompanyPostDto
 {
@@ -12,6 +10,6 @@ public partial class CompanyPostDto
 
     public string? Website { get; set; }
 
-    public virtual Address Address { get; set; } = null!;
+    public virtual AddressGetDto Address { get; set; } = null!;
 }
 
