@@ -1,6 +1,6 @@
 ﻿namespace BL.Abstract
 {
-    public interface ICountryService
+    public interface ICountryService : IGenericService<Country, CountryPostDto, CountryGetDto, CountryPutDto>
     {
     }
 }

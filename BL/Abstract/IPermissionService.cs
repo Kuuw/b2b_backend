@@ -3,11 +3,7 @@ using Entities.Models;
 
 namespace BL.Abstract
 {
-    public interface IPermissionService
+    public interface IPermissionService : IGenericService<Permission, PermissionPostDto, PermissionGetDto, PermissionPutDto>
     {
-        public ServiceResult<bool> Insert(PermissionPostDto data);
-        public ServiceResult<PermissionGetDto?> GetById(Guid id);
-        public ServiceResult<bool> Update(PermissionPutDto data);
-        public ServiceResult<bool> Delete(Guid guid);
     }
 }

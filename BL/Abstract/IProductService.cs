@@ -1,6 +1,9 @@
-﻿namespace BL.Abstract
+﻿using Entities.DTO;
+using Entities.Models;
+
+namespace BL.Abstract
 {
-    public interface IProductService
+    public interface IProductService : IGenericService<Product, ProductPostDto, ProductGetDto, ProductPutDto>
     {
     }
 }

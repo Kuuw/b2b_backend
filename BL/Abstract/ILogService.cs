@@ -3,16 +3,8 @@ using Entities.Models;
 
 namespace BL.Abstract
 {
-    public interface ILogService
+    public interface ILogService : IGenericService<Log, LogPostDto, LogGetDto, LogGetDto>
     {
-        public ServiceResult<bool> Insert(LogPostDto data);
-
-        public ServiceResult<LogGetDto?> GetById(Guid id);
-
-        public ServiceResult<List<LogGetDto>> GetPaged(int page, int pageSize);
-
-        public ServiceResult<bool> Delete(Guid id);
-
         public ServiceResult<bool> InsertType(LogTypePostDto data);
 
         public ServiceResult<LogTypeGetDto?> GetTypeById(Guid id);

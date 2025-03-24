@@ -3,12 +3,8 @@ using Entities.Models;
 
 namespace BL.Abstract
 {
-    public interface ICompanyService
+    public interface ICompanyService : IGenericService<Company, CompanyPostDto, CompanyGetDto, CompanyPutDto>
     {
-        public ServiceResult<bool> Insert(CompanyPostDto data);
         public ServiceResult<CompanyGetDto?> GetByEmail(string email);
-        public ServiceResult<CompanyGetDto?> GetById(Guid id);
-        public ServiceResult<bool> Update(CompanyPutDto data);
-        public ServiceResult<bool> Delete(Guid guid);
     }
 }

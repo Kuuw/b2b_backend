@@ -1,6 +1,9 @@
-﻿namespace BL.Abstract
+﻿using Entities.DTO;
+using Entities.Models;
+
+namespace BL.Abstract
 {
-    public interface IOrderService
+    public interface IOrderService : IGenericService<Order, OrderPostDto, OrderGetDto, OrderPutDto>
     {
     }
 }
