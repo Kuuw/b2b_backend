@@ -1,6 +1,4 @@
-﻿using Entities.Models;
-
-namespace Entities.DTO;
+﻿namespace Entities.DTO;
 
 public partial class RolePostDto
 {
@@ -8,5 +6,5 @@ public partial class RolePostDto
 
     public string? Description { get; set; }
 
-    public virtual ICollection<PermissionPostDto> Permissions { get; set; } = new List<PermissionPostDto>();
+    public virtual ICollection<PermissionGetDto> Permissions { get; set; } = new List<PermissionGetDto>();
 }

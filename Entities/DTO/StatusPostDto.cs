@@ -1,6 +1,4 @@
-﻿using Entities.Models;
-
-namespace Entities.DTO;
+﻿namespace Entities.DTO;
 
 public partial class StatusPostDto
 {
