@@ -1,6 +1,4 @@
-﻿using Entities.Context.Concrete;
-
-namespace Entities.DTO;
+﻿namespace Entities.DTO;
 
 public partial class AuthenticateResponse
 {

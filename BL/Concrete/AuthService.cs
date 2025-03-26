@@ -61,7 +61,7 @@ namespace BL.Concrete
             if (_bcryptService.VerifyPassword(userLogin.Password, user.PasswordHash))
             {
                 var token = Generate(user);
-                var userData = _userRepository.Where(x => x.Email==userLogin.Email)[0];
+                var userData = _userRepository.Where(x => x.Email == userLogin.Email)[0];
 
                 var response = new AuthenticateResponse(mapper.Map<UserGetDto>(userData!), token);
 
