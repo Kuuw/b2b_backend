@@ -41,6 +41,7 @@ namespace BL.Concrete
             cfg.CreateMap<User, UserGetDto>();
             cfg.CreateMap<UserPostDto, User>();
             cfg.CreateMap<UserPutDto, User>();
+            cfg.CreateMap<UserRegister, User>();
         }
 
         public static void AddStatusMappings(this IMapperConfigurationExpression cfg)
