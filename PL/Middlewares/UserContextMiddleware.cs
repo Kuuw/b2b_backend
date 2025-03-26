@@ -1,4 +1,5 @@
 ﻿using Entities.Context.Abstract;
+using System.Text.Json;
 
 namespace PL.Middlewares
 {
@@ -31,7 +32,7 @@ namespace PL.Middlewares
             userContext.Email = emailClaim?.Value ?? "";
             userContext.FirstName = firstNameClaim?.Value ?? "";
             userContext.LastName = lastNameClaim?.Value ?? "";
-            userContext.Permissions = permissionsClaim?.Value?.Split(',').ToList() ?? new List<string>();
+            userContext.Permissions = JsonSerializer.Deserialize(permissionsClaim?.Value);
 
             await _next(context);
         }
