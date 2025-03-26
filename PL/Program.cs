@@ -4,6 +4,8 @@ using BL.Concrete;
 using DAL;
 using DAL.Abstract;
 using DAL.Concrete;
+using Entities.Context.Abstract;
+using Entities.Context.Concrete;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
@@ -71,6 +73,8 @@ builder.Services.AddScoped<IRoleRepository, RoleRepository>();
 builder.Services.AddScoped<IStatusRepository, StatusRepository>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IFileRepository>(provider => new FileRepository(config["Azurite:connectionString"]!));
+
+builder.Services.AddScoped<IUserContext, UserContext>();
 
 builder.Services
     .AddAuthentication(x =>
@@ -146,6 +150,8 @@ app.UseHttpsRedirection();
 
 app.UseAuthentication();
 app.UseAuthorization();
+
+app.UseMiddleware<UserContextMiddleware>(); // This needs to be after UseAuthentication and UseAuthorization because it needs to access the User object.
 
 app.MapControllers();
 
