@@ -5,7 +5,7 @@ namespace DAL.Abstract
 {
     public interface IProductRepository : IGenericRepository<Product>
     {
-        List<Product> GetPaged(ProductGetPagedDto productGetPagedDto);
+        List<Product> GetPaged(int page, int pageSize, ProductFilter productFilter);
         int GetFilteredCount(ProductFilter productFilter);
     }
 }
