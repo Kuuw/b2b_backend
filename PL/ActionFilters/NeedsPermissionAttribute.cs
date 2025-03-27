@@ -7,20 +7,29 @@ namespace PL.ActionFilters
     [AttributeUsage(AttributeTargets.Method)]
     public class NeedsPermissionAttribute : ActionFilterAttribute
     {
-        private readonly string _requiredPermission;
+        private readonly string[] _applicablePermissions;
 
-        public NeedsPermissionAttribute(string requiredPermission)
+        public NeedsPermissionAttribute(params string[] applicablePermissions)
         {
-            _requiredPermission = requiredPermission;
+            _applicablePermissions = applicablePermissions;
         }
 
         public override void OnActionExecuting(ActionExecutingContext context)
         {
             var userContext = context.HttpContext.RequestServices.GetService(typeof(IUserContext)) as IUserContext;
 
-            if (userContext == null || !userContext.Permissions.Contains(_requiredPermission))
+            if (userContext == null)
             {
-                context.Result = new ForbiddenObjectResult(new { message = $"Missing required permission: {_requiredPermission}" });
+                context.Result = new ForbiddenObjectResult(new { message = "User context not available" });
+                return;
+            }
+
+            bool hasPermission = _applicablePermissions.Any(permission => userContext.Permissions.Contains(permission));
+
+            if (!hasPermission)
+            {
+                string requiredPermissions = string.Join(", ", _applicablePermissions);
+                context.Result = new ForbiddenObjectResult(new { message = $"Missing required permissions. Need one of: {requiredPermissions}" });
                 return;
             }
 
