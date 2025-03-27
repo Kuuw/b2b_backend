@@ -30,7 +30,7 @@ namespace PL.Controllers
         [AllowAnonymous]
         public IActionResult Register([FromBody] UserRegister data)
         {
-            return HandleServiceResult(_userService.Reg(data));
+            return HandleServiceResult(_userService.Register(data));
         }
     }
 }
