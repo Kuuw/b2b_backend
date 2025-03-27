@@ -1,4 +1,6 @@
-﻿namespace Entities.DTO;
+﻿using Entities.Models;
+
+namespace Entities.DTO;
 
 public partial class AuthenticateResponse
 {
@@ -8,7 +10,7 @@ public partial class AuthenticateResponse
     public string Role { get; set; }
     public string Token { get; set; }
 
-    public AuthenticateResponse(UserGetDto user, string token)
+    public AuthenticateResponse(User user, string token)
     {
         Id = user.UserId;
         FirstName = user.FirstName;
