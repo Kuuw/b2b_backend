@@ -45,5 +45,22 @@ namespace BL.Concrete
         {
             return ServiceResult<UserGetDto>.Ok(_mapper.Map<UserGetDto>(_userRepository.GetById(_userContext.UserId)));
         }
+
+        public ServiceResult<bool> UpdateSelf(UserPutDto userPutDto)
+        {
+            var user = _userRepository.GetById(_userContext.UserId);
+            if (user == null)
+            {
+                return ServiceResult<bool>.NotFound("User not found.");
+            }
+            user = _mapper.Map(userPutDto, user);
+            user.UserId = _userContext.UserId;
+            var updatedUser = _userRepository.Update(user);
+            if (updatedUser == null)
+            {
+                return ServiceResult<bool>.InternalServerError("User could not be updated.");
+            }
+            return ServiceResult<bool>.Ok(true);
+        }
     }
 }
