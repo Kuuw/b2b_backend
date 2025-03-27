@@ -19,7 +19,7 @@ namespace DAL.Concrete
         {
             return _user
                 .Include(x => x.Role)
-                .ThenInclude(x=>x.Permissions)
+                .ThenInclude(x => x.Permissions)
                 .FirstOrDefault(x => x.Email == email);
         }
     }
