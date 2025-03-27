@@ -1,6 +1,8 @@
 ﻿using BL.Abstract;
 using Entities.DTO;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using PL.ActionFilters;
 
 namespace PL.Controllers
 {
@@ -16,28 +18,34 @@ namespace PL.Controllers
             _permissionService = permissionService;
         }
 
-        // TODO: Implement permission filters.
         // TODO: Implement validation filters.
 
         [HttpGet("{id}")]
+        [AllowAnonymous]
         public IActionResult PermissionGet(Guid id)
         {
             return HandleServiceResult(_permissionService.GetById(id));
         }
 
         [HttpPost]
+        [Authorize]
+        [NeedsPermission("InsertPermission")]
         public IActionResult PermissionPost([FromBody] PermissionPostDto data)
         {
             return HandleServiceResult(_permissionService.Insert(data));
         }
 
         [HttpPut]
+        [Authorize]
+        [NeedsPermission("UpdatePermission")]
         public IActionResult PermissionPut([FromBody] PermissionPutDto data)
         {
             return HandleServiceResult(_permissionService.Update(data));
         }
 
         [HttpDelete("{id}")]
+        [Authorize]
+        [NeedsPermission("DeletePermission")]
         public IActionResult PermissionDelete(Guid id)
         {
             return HandleServiceResult(_permissionService.Delete(id));

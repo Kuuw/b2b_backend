@@ -1,6 +1,8 @@
 ﻿using BL.Abstract;
 using Entities.DTO;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using PL.ActionFilters;
 
 namespace PL.Controllers
 {
@@ -16,28 +18,34 @@ namespace PL.Controllers
             _countryService = countryService;
         }
 
-        // TODO: Implement permission filters.
         // TODO: Implement validation filters.
 
         [HttpGet("{id}")]
+        [AllowAnonymous]
         public IActionResult CountryGet(Guid id)
         {
             return HandleServiceResult(_countryService.GetById(id));
         }
 
         [HttpPost]
+        [Authorize]
+        [NeedsPermission("InsertCountry")]
         public IActionResult CountryPost([FromBody] CountryPostDto data)
         {
             return HandleServiceResult(_countryService.Insert(data));
         }
 
         [HttpPut]
+        [Authorize]
+        [NeedsPermission("UpdateCountry")]
         public IActionResult CountryPut([FromBody] CountryPutDto data)
         {
             return HandleServiceResult(_countryService.Update(data));
         }
 
         [HttpDelete("{id}")]
+        [Authorize]
+        [NeedsPermission("DeleteCountry")]
         public IActionResult CountryDelete(Guid id)
         {
             return HandleServiceResult(_countryService.Delete(id));

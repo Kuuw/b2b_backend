@@ -1,6 +1,8 @@
 ﻿using BL.Abstract;
 using Entities.DTO;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using PL.ActionFilters;
 
 namespace PL.Controllers
 {
@@ -16,28 +18,34 @@ namespace PL.Controllers
             _discountService = discountService;
         }
 
-        // TODO: Implement permission filters.
         // TODO: Implement validation filters.
 
         [HttpGet("{id}")]
+        [AllowAnonymous]
         public IActionResult DiscountGet(Guid id)
         {
             return HandleServiceResult(_discountService.GetById(id));
         }
 
         [HttpPost]
+        [Authorize]
+        [NeedsPermission("CreateDiscount")]
         public IActionResult DiscountPost([FromBody] DiscountPostDto data)
         {
             return HandleServiceResult(_discountService.Insert(data));
         }
 
         [HttpPut]
+        [Authorize]
+        [NeedsPermission("UpdateDiscount")]
         public IActionResult DiscountPut([FromBody] DiscountPutDto data)
         {
             return HandleServiceResult(_discountService.Update(data));
         }
 
         [HttpDelete]
+        [Authorize]
+        [NeedsPermission("DeleteDiscount")]
         public IActionResult DiscountDelete(Guid id)
         {
             return HandleServiceResult(_discountService.Delete(id));

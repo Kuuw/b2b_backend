@@ -1,6 +1,8 @@
 ﻿using BL.Abstract;
 using Entities.DTO;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using PL.ActionFilters;
 
 namespace PL.Controllers
 {
@@ -16,28 +18,34 @@ namespace PL.Controllers
             _statusService = statusService;
         }
 
-        // TODO: Implement permission filters.
         // TODO: Implement validation filters.
 
         [HttpGet("{id}")]
+        [AllowAnonymous]
         public IActionResult StatusGet(Guid id)
         {
             return HandleServiceResult(_statusService.GetById(id));
         }
 
         [HttpPost]
+        [Authorize]
+        [NeedsPermission("CreateStatus")]
         public IActionResult StatusPost([FromBody] StatusPostDto data)
         {
             return HandleServiceResult(_statusService.Insert(data));
         }
 
         [HttpPut]
+        [Authorize]
+        [NeedsPermission("UpdateStatus")]
         public IActionResult StatusPut([FromBody] StatusPutDto data)
         {
             return HandleServiceResult(_statusService.Update(data));
         }
 
         [HttpDelete("{id}")]
+        [Authorize]
+        [NeedsPermission("DeleteStatus")]
         public IActionResult StatusDelete(Guid id)
         {
             return HandleServiceResult(_statusService.Delete(id));
