@@ -1,4 +1,5 @@
 ﻿using BL.Abstract;
+using Entities.DTO;
 using Microsoft.AspNetCore.Mvc;
 
 namespace PL.Controllers
@@ -19,7 +20,7 @@ namespace PL.Controllers
         // TODO: Implement validation filters.
 
         [HttpGet("{id}")]
-        public IActionResult CountryGet(int id)
+        public IActionResult CountryGet(Guid id)
         {
             return HandleServiceResult(_countryService.GetById(id));
         }
@@ -37,7 +38,7 @@ namespace PL.Controllers
         }
 
         [HttpDelete("{id}")]
-        public IActionResult CountryDelete(int id)
+        public IActionResult CountryDelete(Guid id)
         {
             return HandleServiceResult(_countryService.Delete(id));
         }
