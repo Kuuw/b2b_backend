@@ -2,6 +2,8 @@
 
 public partial class CompanyGetDto
 {
+    public Guid CompanyId { get; set; }
+
     public string CompanyName { get; set; } = null!;
 
     public string TaxNumber { get; set; } = null!;
