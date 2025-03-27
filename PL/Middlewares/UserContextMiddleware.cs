@@ -1,5 +1,6 @@
 ﻿using Entities.Context.Abstract;
 using System.Text.Json;
+using System.Text.Json.Nodes;
 
 namespace PL.Middlewares
 {
@@ -21,7 +22,7 @@ namespace PL.Middlewares
             var emailClaim = user.FindFirst("Email");
             var firstNameClaim = user.FindFirst("FirstName");
             var lastNameClaim = user.FindFirst("LastName");
-            var permissionsClaim = user.FindFirst("Permissions");
+            var permissionsClaim = user.FindFirst("Permissions")?.Value;
 
             if (userIdClaim != null && Guid.TryParse(userIdClaim.Value, out var userId))
             {
@@ -32,7 +33,42 @@ namespace PL.Middlewares
             userContext.Email = emailClaim?.Value ?? "";
             userContext.FirstName = firstNameClaim?.Value ?? "";
             userContext.LastName = lastNameClaim?.Value ?? "";
-            userContext.Permissions = permissionsClaim != null ? JsonSerializer.Deserialize<List<string>>(permissionsClaim.Value) : new List<string>();
+
+            if (permissionsClaim != null)
+            {
+                try
+                {
+                    // Parse the JSON to handle the reference-preserving format
+                    using (JsonDocument document = JsonDocument.Parse(permissionsClaim))
+                    {
+                        // Check if it contains the $values property
+                        if (document.RootElement.TryGetProperty("$values", out var valuesElement))
+                        {
+                            userContext.Permissions = JsonSerializer.Deserialize<List<string>>(
+                                valuesElement.GetRawText(),
+                                new JsonSerializerOptions { PropertyNameCaseInsensitive = true }
+                            ) ?? new List<string>();
+                        }
+                        else
+                        {
+                            // Fallback to direct deserialization if it's a simple array
+                            userContext.Permissions = JsonSerializer.Deserialize<List<string>>(
+                                permissionsClaim,
+                                new JsonSerializerOptions { PropertyNameCaseInsensitive = true }
+                            ) ?? new List<string>();
+                        }
+                    }
+                }
+                catch (JsonException ex)
+                {
+                    Console.WriteLine($"Error deserializing permissions: {ex.Message}");
+                    userContext.Permissions = new List<string>();
+                }
+            }
+            else
+            {
+                userContext.Permissions = new List<string>();
+            }
 
             await _next(context);
         }
