@@ -10,6 +10,6 @@ public partial class CompanyPostDto
 
     public string? Website { get; set; }
 
-    public virtual AddressGetDto Address { get; set; } = null!;
+    public virtual AddressPostDto Address { get; set; } = null!;
 }
 
