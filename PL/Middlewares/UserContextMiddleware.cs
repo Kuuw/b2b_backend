@@ -32,7 +32,7 @@ namespace PL.Middlewares
             userContext.Email = emailClaim?.Value ?? "";
             userContext.FirstName = firstNameClaim?.Value ?? "";
             userContext.LastName = lastNameClaim?.Value ?? "";
-            userContext.Permissions = JsonSerializer.Deserialize(permissionsClaim?.Value);
+            userContext.Permissions = permissionsClaim != null ? JsonSerializer.Deserialize<List<string>>(permissionsClaim.Value) : new List<string>();
 
             await _next(context);
         }
