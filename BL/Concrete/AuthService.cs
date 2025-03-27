@@ -55,15 +55,13 @@ namespace BL.Concrete
 
         public ServiceResult<AuthenticateResponse?> Authenticate(UserLogin userLogin)
         {
-            var user = _userRepository.Where(x => x.Email == userLogin.Email.ToLower()).FirstOrDefault();
-            if (user == null) { return null; }
+            var user = _userRepository.GetByEmail(userLogin.Email);
+            if (user == null) { return ServiceResult<AuthenticateResponse?>.NotFound(null); }
 
             if (_bcryptService.VerifyPassword(userLogin.Password, user.PasswordHash))
             {
                 var token = Generate(user);
-                var userData = _userRepository.Where(x => x.Email == userLogin.Email)[0];
-
-                var response = new AuthenticateResponse(mapper.Map<UserGetDto>(userData!), token);
+                var response = new AuthenticateResponse(user, token);
 
                 return ServiceResult<AuthenticateResponse?>.Ok(response);
             }
