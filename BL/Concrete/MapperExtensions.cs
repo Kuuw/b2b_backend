@@ -8,8 +8,11 @@ namespace BL.Concrete
     {
         public static void AddCompanyMappings(this IMapperConfigurationExpression cfg)
         {
-            cfg.CreateMap<Company, CompanyGetDto>();
-            cfg.CreateMap<CompanyPostDto, Company>();
+            cfg.CreateMap<Company, CompanyGetDto>()
+                .ForMember(dest => dest.Status, opt => opt.MapFrom(src => src.Status))
+                .ForMember(dest => dest.Address, opt => opt.MapFrom(src => src.Address));
+            cfg.CreateMap<CompanyPostDto, Company>()
+                .ForMember(dest => dest.StatusId, opt => opt.MapFrom(src => "89c78a87-fab4-4e6f-b62e-9d84d1a2de63")); // Map to default Status.
             cfg.CreateMap<CompanyPutDto, Company>();
         }
 
@@ -41,7 +44,9 @@ namespace BL.Concrete
             cfg.CreateMap<User, UserGetDto>();
             cfg.CreateMap<UserPostDto, User>();
             cfg.CreateMap<UserPutDto, User>();
-            cfg.CreateMap<UserRegister, User>();
+            cfg.CreateMap<UserRegister, User>()
+                .ForMember(dest => dest.StatusId, opt => opt.MapFrom(src => "89c78a87-fab4-4e6f-b62e-9d84d1a2de63")) // Map to default status.
+                .ForMember(dest => dest.RoleId, opt => opt.MapFrom(src => "8ff752a6-4a57-4b19-b7e6-f17b2dd69149")); // Map to default role.
         }
 
         public static void AddStatusMappings(this IMapperConfigurationExpression cfg)
