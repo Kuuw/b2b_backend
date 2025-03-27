@@ -27,7 +27,7 @@ namespace PL.Controllers
 
         [HttpPost]
         [Authorize]
-        [NeedsPermission("InsertCategory")]
+        [NeedsPermission("InsertCategory", "Administrator")]
         public IActionResult CategoryPost([FromBody] CategoryPostDto data)
         {
             return HandleServiceResult(_categoryService.Insert(data));
@@ -35,7 +35,7 @@ namespace PL.Controllers
 
         [HttpPut]
         [Authorize]
-        [NeedsPermission("UpdateCategory")]
+        [NeedsPermission("UpdateCategory", "Administrator")]
         public IActionResult CategoryPut([FromBody] CategoryPutDto data)
         {
             return HandleServiceResult(_categoryService.Update(data));
@@ -43,7 +43,7 @@ namespace PL.Controllers
 
         [HttpDelete("{id}")]
         [Authorize]
-        [NeedsPermission("DeleteCategory")]
+        [NeedsPermission("DeleteCategory", "Administrator")]
         public IActionResult CategoryDelete(Guid id)
         {
             return HandleServiceResult(_categoryService.Delete(id));

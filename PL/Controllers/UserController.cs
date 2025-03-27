@@ -26,35 +26,35 @@ namespace PL.Controllers
         }
 
         [HttpGet("{id}")]
-        [NeedsPermission("GetUserDetail")]
+        [NeedsPermission("GetUserDetail", "Administrator")]
         public IActionResult User(Guid id)
         {
             return HandleServiceResult(_userService.GetById(id));
         }
 
         [HttpGet("CompanyId/{id}")]
-        [NeedsPermission("GetUserDetail")]
+        [NeedsPermission("GetUserDetail", "Administrator")]
         public IActionResult GetByCompany(Guid companyId)
         {
             return HandleServiceResult(_userService.GetByCompanyId(companyId));
         }
 
         [HttpPost]
-        [NeedsPermission("InsertUser")]
+        [NeedsPermission("InsertUser", "Administrator")]
         public IActionResult User([FromBody] UserPostDto data)
         {
             return HandleServiceResult(_userService.Insert(data));
         }
 
         [HttpPut]
-        [NeedsPermission("UpdateUser")]
+        [NeedsPermission("UpdateUser", "Administrator")]
         public IActionResult User([FromBody] UserPutDto data)
         {
             return HandleServiceResult(_userService.Update(data));
         }
 
         [HttpDelete("{id}")]
-        [NeedsPermission("DeleteUser")]
+        [NeedsPermission("DeleteUser", "Administrator")]
         public IActionResult DeleteUser(Guid id)
         {
             return HandleServiceResult(_userService.Delete(id));

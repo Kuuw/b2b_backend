@@ -29,7 +29,7 @@ namespace PL.Controllers
 
         [HttpPost]
         [Authorize]
-        [NeedsPermission("CreateStatus")]
+        [NeedsPermission("CreateStatus", "Administrator")]
         public IActionResult StatusPost([FromBody] StatusPostDto data)
         {
             return HandleServiceResult(_statusService.Insert(data));
@@ -37,7 +37,7 @@ namespace PL.Controllers
 
         [HttpPut]
         [Authorize]
-        [NeedsPermission("UpdateStatus")]
+        [NeedsPermission("UpdateStatus", "Administrator")]
         public IActionResult StatusPut([FromBody] StatusPutDto data)
         {
             return HandleServiceResult(_statusService.Update(data));
@@ -45,7 +45,7 @@ namespace PL.Controllers
 
         [HttpDelete("{id}")]
         [Authorize]
-        [NeedsPermission("DeleteStatus")]
+        [NeedsPermission("DeleteStatus", "Administrator")]
         public IActionResult StatusDelete(Guid id)
         {
             return HandleServiceResult(_statusService.Delete(id));

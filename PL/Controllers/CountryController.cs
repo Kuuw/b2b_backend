@@ -29,7 +29,7 @@ namespace PL.Controllers
 
         [HttpPost]
         [Authorize]
-        [NeedsPermission("InsertCountry")]
+        [NeedsPermission("InsertCountry", "Administrator")]
         public IActionResult CountryPost([FromBody] CountryPostDto data)
         {
             return HandleServiceResult(_countryService.Insert(data));
@@ -37,7 +37,7 @@ namespace PL.Controllers
 
         [HttpPut]
         [Authorize]
-        [NeedsPermission("UpdateCountry")]
+        [NeedsPermission("UpdateCountry", "Administrator")]
         public IActionResult CountryPut([FromBody] CountryPutDto data)
         {
             return HandleServiceResult(_countryService.Update(data));
@@ -45,7 +45,7 @@ namespace PL.Controllers
 
         [HttpDelete("{id}")]
         [Authorize]
-        [NeedsPermission("DeleteCountry")]
+        [NeedsPermission("DeleteCountry", "Administrator")]
         public IActionResult CountryDelete(Guid id)
         {
             return HandleServiceResult(_countryService.Delete(id));

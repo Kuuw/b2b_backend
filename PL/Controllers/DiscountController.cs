@@ -29,7 +29,7 @@ namespace PL.Controllers
 
         [HttpPost]
         [Authorize]
-        [NeedsPermission("CreateDiscount")]
+        [NeedsPermission("CreateDiscount", "Administrator")]
         public IActionResult DiscountPost([FromBody] DiscountPostDto data)
         {
             return HandleServiceResult(_discountService.Insert(data));
@@ -37,7 +37,7 @@ namespace PL.Controllers
 
         [HttpPut]
         [Authorize]
-        [NeedsPermission("UpdateDiscount")]
+        [NeedsPermission("UpdateDiscount", "Administrator")]
         public IActionResult DiscountPut([FromBody] DiscountPutDto data)
         {
             return HandleServiceResult(_discountService.Update(data));
@@ -45,7 +45,7 @@ namespace PL.Controllers
 
         [HttpDelete]
         [Authorize]
-        [NeedsPermission("DeleteDiscount")]
+        [NeedsPermission("DeleteDiscount", "Administrator")]
         public IActionResult DiscountDelete(Guid id)
         {
             return HandleServiceResult(_discountService.Delete(id));

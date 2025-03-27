@@ -20,7 +20,7 @@ namespace PL.Controllers
 
         [HttpGet("{id}")]
         [Authorize]
-        [NeedsPermission("ViewRoleDetails")]
+        [NeedsPermission("ViewRoleDetails", "Administrator")]
         public IActionResult RoleGet(Guid id)
         {
             return HandleServiceResult(_roleService.GetById(id));
@@ -28,7 +28,7 @@ namespace PL.Controllers
 
         [HttpPost]
         [Authorize]
-        [NeedsPermission("InsertRole")]
+        [NeedsPermission("InsertRole", "Administrator")]
         public IActionResult RolePost([FromBody] RolePostDto data)
         {
             return HandleServiceResult(_roleService.Insert(data));
@@ -36,7 +36,7 @@ namespace PL.Controllers
 
         [HttpPut]
         [Authorize]
-        [NeedsPermission("UpdateRole")]
+        [NeedsPermission("UpdateRole", "Administrator")]
         public IActionResult RolePut([FromBody] RolePutDto data)
         {
             return HandleServiceResult(_roleService.Update(data));
@@ -44,7 +44,7 @@ namespace PL.Controllers
 
         [HttpDelete("{id}")]
         [Authorize]
-        [NeedsPermission("DeleteRole")]
+        [NeedsPermission("DeleteRole", "Administrator")]
         public IActionResult RoleDelete(Guid id)
         {
             return HandleServiceResult(_roleService.Delete(id));

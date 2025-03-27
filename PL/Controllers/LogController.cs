@@ -22,14 +22,14 @@ namespace PL.Controllers
         // TODO: Implement validation filters.
 
         [HttpGet("{id}")]
-        [NeedsPermission("ViewLog")]
+        [NeedsPermission("ViewLog", "Administrator")]
         public IActionResult Log(Guid id)
         {
             return HandleServiceResult(_logService.GetById(id));
         }
 
         [HttpGet]
-        [NeedsPermission("ViewLog")]
+        [NeedsPermission("ViewLog", "Administrator")]
         public IActionResult Log(int page, int pageSize)
         {
             return HandleServiceResult(_logService.GetPaged(page, pageSize));
@@ -50,28 +50,28 @@ namespace PL.Controllers
         }
 
         [HttpPost("Type")]
-        [NeedsPermission("CreateLogType")]
+        [NeedsPermission("CreateLogType", "Administrator")]
         public IActionResult LogType([FromBody] LogTypePostDto data)
         {
             return HandleServiceResult(_logService.InsertType(data));
         }
 
         [HttpPut("Type")]
-        [NeedsPermission("UpdateLogType")]
+        [NeedsPermission("UpdateLogType", "Administrator")]
         public IActionResult LogType([FromBody] LogTypePutDto data)
         {
             return HandleServiceResult(_logService.UpdateType(data));
         }
 
         [HttpDelete("Type/{id}")]
-        [NeedsPermission("DeleteLogType")]
+        [NeedsPermission("DeleteLogType", "Administrator")]
         public IActionResult LogTypeDelete(Guid id)
         {
             return HandleServiceResult(_logService.DeleteType(id));
         }
 
         [HttpDelete("{id}")]
-        [NeedsPermission("DeleteLog")]
+        [NeedsPermission("DeleteLog", "Administrator")]
         public IActionResult LogDelete(Guid id)
         {
             return HandleServiceResult(_logService.Delete(id));

@@ -27,7 +27,7 @@ namespace PL.Controllers
 
         [HttpPost]
         [Authorize]
-        [NeedsPermission("CreateProduct")]
+        [NeedsPermission("CreateProduct", "Administrator")]
         public IActionResult ProductPost([FromBody] ProductPostDto data)
         {
             return HandleServiceResult(_productService.Insert(data));
@@ -35,7 +35,7 @@ namespace PL.Controllers
 
         [HttpPut]
         [Authorize]
-        [NeedsPermission("UpdateProduct")]
+        [NeedsPermission("UpdateProduct", "Administrator")]
         public IActionResult ProductPut([FromBody] ProductPutDto data)
         {
             return HandleServiceResult(_productService.Update(data));
@@ -43,7 +43,7 @@ namespace PL.Controllers
 
         [HttpDelete("{id}")]
         [Authorize]
-        [NeedsPermission("DeleteProduct")]
+        [NeedsPermission("DeleteProduct", "Administrator")]
         public IActionResult ProductDelete(Guid id)
         {
             return HandleServiceResult(_productService.Delete(id));

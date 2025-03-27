@@ -22,35 +22,35 @@ namespace PL.Controllers
         // TODO: Implement validation filters.
 
         [HttpGet("{id}")]
-        [NeedsPermission("GetCompanyDetail")]
+        [NeedsPermission("GetCompanyDetail", "Administrator")]
         public IActionResult Company(Guid id)
         {
             return HandleServiceResult(_companyService.GetById(id));
         }
 
         [HttpGet]
-        [NeedsPermission("GetCompanyDetail")]
+        [NeedsPermission("GetCompanyDetail", "Administrator")]
         public IActionResult Company(string email)
         {
             return HandleServiceResult(_companyService.GetByEmail(email));
         }
 
         [HttpPost]
-        [NeedsPermission("InsertCompany")]
+        [NeedsPermission("InsertCompany", "Administrator")]
         public IActionResult Company([FromBody] CompanyPostDto data)
         {
             return HandleServiceResult(_companyService.Insert(data));
         }
 
         [HttpPut]
-        [NeedsPermission("UpdateCompany")]
+        [NeedsPermission("UpdateCompany", "Administrator")]
         public IActionResult Company([FromBody] CompanyPutDto data)
         {
             return HandleServiceResult(_companyService.Update(data));
         }
 
         [HttpDelete("{id}")]
-        [NeedsPermission("DeleteCompany")]
+        [NeedsPermission("DeleteCompany", "Administrator")]
         public IActionResult CompanyDelete(Guid id)
         {
             return HandleServiceResult(_companyService.Delete(id));

@@ -20,7 +20,7 @@ namespace PL.Controllers
 
         [HttpGet("{id}")]
         [Authorize]
-        [NeedsPermission("ViewOrderDetails")]
+        [NeedsPermission("ViewOrderDetails", "Administrator")]
         public IActionResult OrderGet(Guid id)
         {
             return HandleServiceResult(_orderService.GetById(id));
@@ -28,7 +28,7 @@ namespace PL.Controllers
 
         [HttpPost]
         [Authorize]
-        [NeedsPermission("CreateOrder")]
+        [NeedsPermission("CreateOrder", "Administrator")]
         public IActionResult OrderPost([FromBody] OrderPostDto data)
         {
             return HandleServiceResult(_orderService.Insert(data));
@@ -36,7 +36,7 @@ namespace PL.Controllers
 
         [HttpPut]
         [Authorize]
-        [NeedsPermission("UpdateOrder")]
+        [NeedsPermission("UpdateOrder", "Administrator")]
         public IActionResult OrderPut([FromBody] OrderPutDto data)
         {
             return HandleServiceResult(_orderService.Update(data));
@@ -44,7 +44,7 @@ namespace PL.Controllers
 
         [HttpDelete("{id}")]
         [Authorize]
-        [NeedsPermission("DeleteOrder")]
+        [NeedsPermission("DeleteOrder", "Administrator")]
         public IActionResult OrderDelete(Guid id)
         {
             return HandleServiceResult(_orderService.Delete(id));

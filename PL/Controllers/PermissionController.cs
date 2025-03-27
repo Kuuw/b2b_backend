@@ -29,7 +29,7 @@ namespace PL.Controllers
 
         [HttpPost]
         [Authorize]
-        [NeedsPermission("InsertPermission")]
+        [NeedsPermission("InsertPermission", "Administrator")]
         public IActionResult PermissionPost([FromBody] PermissionPostDto data)
         {
             return HandleServiceResult(_permissionService.Insert(data));
@@ -37,7 +37,7 @@ namespace PL.Controllers
 
         [HttpPut]
         [Authorize]
-        [NeedsPermission("UpdatePermission")]
+        [NeedsPermission("UpdatePermission", "Administrator")]
         public IActionResult PermissionPut([FromBody] PermissionPutDto data)
         {
             return HandleServiceResult(_permissionService.Update(data));
@@ -45,7 +45,7 @@ namespace PL.Controllers
 
         [HttpDelete("{id}")]
         [Authorize]
-        [NeedsPermission("DeletePermission")]
+        [NeedsPermission("DeletePermission", "Administrator")]
         public IActionResult PermissionDelete(Guid id)
         {
             return HandleServiceResult(_permissionService.Delete(id));

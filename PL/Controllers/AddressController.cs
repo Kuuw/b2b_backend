@@ -20,7 +20,7 @@ namespace PL.Controllers
 
         [HttpGet("{id}")]
         [Authorize]
-        [NeedsPermission("ViewAddressDetails")]
+        [NeedsPermission("ViewAddressDetails", "Administrator")]
         public IActionResult Address(Guid id)
         {
             return HandleServiceResult(_addressService.GetById(id));
@@ -28,7 +28,7 @@ namespace PL.Controllers
 
         [HttpGet("CompanyId/{id}")]
         [Authorize]
-        [NeedsPermission("ViewAddressDetails")]
+        [NeedsPermission("ViewAddressDetails", "Administrator")]
         public IActionResult GetByCompany(Guid companyId)
         {
             return HandleServiceResult(_addressService.GetByCompanyId(companyId));
@@ -36,7 +36,7 @@ namespace PL.Controllers
 
         [HttpGet("UserId/{id}")]
         [Authorize]
-        [NeedsPermission("ViewAddressDetails")]
+        [NeedsPermission("ViewAddressDetails", "Administrator")]
         public IActionResult GetByUser(Guid userId)
         {
             return HandleServiceResult(_addressService.GetByUserId(userId));
@@ -44,7 +44,7 @@ namespace PL.Controllers
 
         [HttpPost]
         [Authorize]
-        [NeedsPermission("InsertAddress")]
+        [NeedsPermission("InsertAddress", "Administrator")]
         public IActionResult Address([FromBody] AddressPostDto data)
         {
             return HandleServiceResult(_addressService.Insert(data));
@@ -52,7 +52,7 @@ namespace PL.Controllers
 
         [HttpPut]
         [Authorize]
-        [NeedsPermission("UpdateAddress")]
+        [NeedsPermission("UpdateAddress", "Administrator")]
         public IActionResult Address([FromBody] AddressPutDto data)
         {
             return HandleServiceResult(_addressService.Update(data));
@@ -60,7 +60,7 @@ namespace PL.Controllers
 
         [HttpDelete("{id}")]
         [Authorize]
-        [NeedsPermission("DeleteAddress")]
+        [NeedsPermission("DeleteAddress", "Administrator")]
         public IActionResult DeleteAddress(Guid id)
         {
             return HandleServiceResult(_addressService.Delete(id));
