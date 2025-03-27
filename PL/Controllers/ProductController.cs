@@ -25,6 +25,14 @@ namespace PL.Controllers
             return HandleServiceResult(_productService.GetById(id));
         }
 
+        [HttpPost("GetPaged")]
+        [AllowAnonymous]
+        [ValidateModel]
+        public IActionResult ProductGetPaged([FromBody] ProductGetPagedDto data)
+        {
+            return HandleServiceResult(_productService.GetPaged(data));
+        }
+
         [HttpPost]
         [Authorize]
         [NeedsPermission("CreateProduct", "Administrator")]
