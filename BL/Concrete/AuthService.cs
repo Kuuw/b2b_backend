@@ -9,6 +9,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 using System.Text.Json;
+using System.Text.Json.Serialization;
 
 namespace BL.Concrete
 {
@@ -33,6 +34,11 @@ namespace BL.Concrete
             var securityKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(key));
             var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
 
+            var options = new JsonSerializerOptions
+            {
+                ReferenceHandler = ReferenceHandler.Preserve
+            };
+
             var claims = new[]
             {
                 new Claim("UserId", user.UserId.ToString()),
@@ -40,7 +46,7 @@ namespace BL.Concrete
                 new Claim("FirstName", user.FirstName),
                 new Claim("LastName", user.LastName),
                 new Claim("Role", user.Role.RoleName),
-                new Claim("Permissions", JsonSerializer.Serialize(user.Role.Permissions), JsonClaimValueTypes.JsonArray)
+                new Claim("Permissions", JsonSerializer.Serialize(user.Role.Permissions.Select(x => x.PermissionName), options), JsonClaimValueTypes.JsonArray)
             };
 
             var token = new JwtSecurityToken(
