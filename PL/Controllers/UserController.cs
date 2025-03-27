@@ -46,6 +46,13 @@ namespace PL.Controllers
             return HandleServiceResult(_userService.Insert(data));
         }
 
+        [HttpPost]
+        [Authorize]
+        public IActionResult User([FromBody] UserPutDto data)
+        {
+            return HandleServiceResult(_userService.UpdateSelf(data));
+        }
+
         [HttpPut]
         [NeedsPermission("UpdateUser", "Administrator")]
         public IActionResult User([FromBody] UserPutDto data)
