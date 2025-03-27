@@ -41,21 +41,21 @@ namespace PL.Controllers
 
         [HttpPost]
         [NeedsPermission("InsertUser", "Administrator")]
-        public IActionResult User([FromBody] UserPostDto data)
+        public IActionResult UserInsert([FromBody] UserPostDto data)
         {
             return HandleServiceResult(_userService.Insert(data));
         }
 
         [HttpPost]
         [Authorize]
-        public IActionResult User([FromBody] UserPutDto data)
+        public IActionResult UserSelfUpdate([FromBody] UserPutDto data)
         {
             return HandleServiceResult(_userService.UpdateSelf(data));
         }
 
         [HttpPut]
         [NeedsPermission("UpdateUser", "Administrator")]
-        public IActionResult User([FromBody] UserPutDto data)
+        public IActionResult UserUpdate([FromBody] UserPutDto data)
         {
             return HandleServiceResult(_userService.Update(data));
         }
