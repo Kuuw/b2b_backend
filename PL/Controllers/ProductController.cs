@@ -56,5 +56,15 @@ namespace PL.Controllers
         {
             return HandleServiceResult(_productService.Delete(id));
         }
+
+        [HttpPost("Image")]
+        [RequestSizeLimit(100_000_000)]
+        [Authorize]
+        [Consumes("image/jpeg")]
+        [NeedsPermission("UpdateProduct", "Administrator")]
+        public IActionResult ProductImage(Guid id, [FromBody] Stream documentData)
+        {
+            return HandleServiceResult(_productService.UploadImage(id, documentData));
+        }
     }
 }
