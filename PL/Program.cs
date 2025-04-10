@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using PL.Helpers;
 using PL.Middlewares;
 using System.Text;
 
@@ -134,6 +135,9 @@ builder.Services.AddCors(options =>
 });
 
 builder.Services.AddAuthorization();
+
+builder.Services.AddControllers(options =>
+        options.InputFormatters.Add(new StreamInputFormatter()));
 
 var app = builder.Build();
 
