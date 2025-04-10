@@ -25,6 +25,13 @@ namespace PL.Controllers
             return HandleServiceResult(_categoryService.GetById(id));
         }
 
+        [HttpGet]
+        [AllowAnonymous]
+        public IActionResult CategoryGet(int page=1, int pageSize=20)
+        {
+            return HandleServiceResult(_categoryService.GetPaged(page, pageSize));
+        }
+
         [HttpPost]
         [Authorize]
         [NeedsPermission("InsertCategory", "Administrator")]
