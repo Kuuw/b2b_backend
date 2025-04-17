@@ -49,5 +49,21 @@ namespace PL.Controllers
         {
             return HandleServiceResult(_orderService.Delete(id));
         }
+
+        [HttpPost("Create")]
+        [Authorize]
+        [NeedsPermission("COFC", "Administrator")]
+        public IActionResult CreateOrder([FromBody] OrderPostDto data)
+        {
+            return HandleServiceResult(_orderService.SelfCreate(data));
+        }
+
+        [HttpGet]
+        [Authorize]
+        [NeedsPermission("GetOrders", "Administrator")]
+        public IActionResult GetOrders()
+        {
+            return HandleServiceResult(_orderService.SelfGet());
+        }
     }
 }
