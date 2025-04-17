@@ -7,5 +7,6 @@ namespace BL.Abstract
     {
         ServiceResult<List<AddressGetDto>?> GetByUserId(Guid userId);
         ServiceResult<List<AddressGetDto>?> GetByCompanyId(Guid companyId);
+        ServiceResult<List<AddressGetDto>?> GetSelfAddresses();
     }
 }

@@ -65,5 +65,13 @@ namespace PL.Controllers
         {
             return HandleServiceResult(_addressService.Delete(id));
         }
+
+        [HttpGet("GetSelf")]
+        [Authorize]
+        [NeedsPermission("ViewAddressDetails", "Administrator")]
+        public IActionResult GetSelf()
+        {
+            return HandleServiceResult(_addressService.GetSelfAddresses());
+        }
     }
 }
