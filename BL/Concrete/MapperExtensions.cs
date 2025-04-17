@@ -59,14 +59,16 @@ namespace BL.Concrete
         public static void AddOrderMappings(this IMapperConfigurationExpression cfg)
         {
             cfg.CreateMap<Order, OrderGetDto>();
-            cfg.CreateMap<OrderPostDto, Order>();
+            cfg.CreateMap<OrderPostDto, Order>()
+                .ForMember(dest => dest.StatusId, opt => opt.MapFrom(src => "89c78a87-fab4-4e6f-b62e-9d84d1a2de63")); // Map to default Status.
             cfg.CreateMap<OrderPutDto, Order>();
         }
 
         public static void AddOrderItemMappings(this IMapperConfigurationExpression cfg)
         {
             cfg.CreateMap<OrderItem, OrderItemGetDto>();
-            cfg.CreateMap<OrderItemPostDto, OrderItem>();
+            cfg.CreateMap<OrderItemPostDto, OrderItem>()
+                .ForMember(dest => dest.Currency, opt => opt.MapFrom(src => "USD"));
         }
 
         public static void AddInvoiceMappings(this IMapperConfigurationExpression cfg)
