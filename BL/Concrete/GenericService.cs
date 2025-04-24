@@ -49,5 +49,11 @@ namespace BL.Concrete
             var model = _mapper.Map<TModel>(data);
             return ServiceResult<bool>.Ok(_repository.Update(model));
         }
+
+        public ServiceResult<List<TGetDto>> GetAll()
+        {
+            var models = _mapper.Map<List<TGetDto>>(_repository.List());
+            return ServiceResult<List<TGetDto>>.Ok(models);
+        }
     }
 }
