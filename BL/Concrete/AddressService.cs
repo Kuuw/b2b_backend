@@ -21,19 +21,19 @@ namespace BL.Concrete
 
         public ServiceResult<List<AddressGetDto>?> GetByUserId(Guid userId)
         {
-            var address = _addressRepository.Where(x => x.UserId == userId);
+            var address = _addressRepository.Where([x => x.UserId == userId]);
             return ServiceResult<List<AddressGetDto>?>.Ok(_mapper.Map<List<AddressGetDto>?>(address));
         }
 
         public ServiceResult<List<AddressGetDto>?> GetByCompanyId(Guid companyId)
         {
-            var address = _addressRepository.Where(x => x.CompanyId == companyId);
+            var address = _addressRepository.Where([x => x.CompanyId == companyId]);
             return ServiceResult<List<AddressGetDto>?>.Ok(_mapper.Map<List<AddressGetDto>?>(address));
         }
 
         public ServiceResult<List<AddressGetDto>?> GetSelfAddresses()
         {
-            var address = _addressRepository.Where(x => x.UserId == _userContext.UserId);
+            var address = _addressRepository.Where([x => x.UserId == _userContext.UserId]);
             return ServiceResult<List<AddressGetDto>?>.Ok(_mapper.Map<List<AddressGetDto>?>(address));
         }
     }

@@ -38,7 +38,7 @@ namespace BL.Concrete
 
         public ServiceResult<List<UserGetDto?>> GetByCompanyId(Guid companyId)
         {
-            var user = _userRepository.Where(x => x.CompanyId == companyId);
+            var user = _userRepository.Where([x => x.CompanyId == companyId]);
             return ServiceResult<List<UserGetDto?>>.Ok(_mapper.Map<List<UserGetDto?>>(user));
         }
 

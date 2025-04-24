@@ -21,7 +21,7 @@ namespace BL.Concrete
 
         public ServiceResult<bool> InsertType(LogTypePostDto data)
         {
-            var checkIfExists = _logTypeRepository.Where(x => x.LogTypeName == data.LogTypeName);
+            var checkIfExists = _logTypeRepository.Where([x => x.LogTypeName == data.LogTypeName]);
             if (checkIfExists.Count > 0)
             {
                 return ServiceResult<bool>.Conflict("Log type already exists");
