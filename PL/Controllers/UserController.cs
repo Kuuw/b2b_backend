@@ -19,6 +19,13 @@ namespace PL.Controllers
             _userService = service;
         }
 
+        [HttpGet("GetPaged")]
+        [NeedsPermission("Administrator")]
+        public IActionResult GetPaged([FromQuery] int page, [FromQuery] int pageSize)
+        {
+            return HandleServiceResult(_userService.GetPaged(page, pageSize));
+        }
+
         [HttpGet]
         public IActionResult User()
         {
