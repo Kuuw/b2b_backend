@@ -1,5 +1,7 @@
 ﻿using DAL.Abstract;
+using Entities.DTO;
 using Microsoft.EntityFrameworkCore;
+using System.Linq.Expressions;
 
 namespace DAL.Concrete
 {
@@ -57,14 +59,40 @@ namespace DAL.Concrete
             }
         }
 
-        public List<T> Where(Func<T, bool> predicate)
+        public List<T> Where(List<Func<T, bool>> predicate, Func<IQueryable<T>, IQueryable<T>> include = null)
         {
-            return data.Where(predicate).ToList();
+            var query = data.AsQueryable();
+            if (include != null)
+            {
+                query = include(query);
+            }
+            foreach (var pred in predicate)
+            {
+                query = query.Where(pred).AsQueryable();
+            }
+            return query.ToList(); 
         }
 
-        public List<T> GetPaged(int page, int pageSize)
+        public List<T> GetPaged(int page, int pageSize, Func<IQueryable<T>, IQueryable<T>> include = null)
         {
-            return data.Skip((page - 1) * pageSize).Take(pageSize).ToList();
+            var query = data.AsQueryable();
+            if (include != null)
+            {
+                query = include(query);
+            }
+            return query.Skip((page - 1) * pageSize).Take(pageSize).ToList();
+        }
+
+        public PageMetadata GetPageMetadata(int page, int pageSize)
+        {
+            var totalCount = data.Count();
+            var totalPages = (int)Math.Ceiling((double)totalCount / pageSize);
+            return new PageMetadata
+            {
+                Page = page,
+                PageSize = pageSize,
+                TotalPages = totalPages
+            };
         }
     }
 }

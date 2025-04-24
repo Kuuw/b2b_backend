@@ -1,4 +1,7 @@
-﻿namespace DAL.Abstract
+﻿using Entities.DTO;
+using System.Linq.Expressions;
+
+namespace DAL.Abstract
 {
     public interface IGenericRepository<T>
     {
@@ -7,7 +10,8 @@
         bool Delete(T p);
         bool Update(T p);
         T? GetById(Guid id);
-        List<T> Where(Func<T, bool> predicate);
-        public List<T> GetPaged(int page, int pageSize);
+        public List<T> Where(List<Func<T, bool>> predicate, Func<IQueryable<T>, IQueryable<T>> include = null);
+        public List<T> GetPaged(int page, int pageSize, Func<IQueryable<T>, IQueryable<T>> include = null);
+        public PageMetadata GetPageMetadata(int page, int pageSize);
     }
 }
