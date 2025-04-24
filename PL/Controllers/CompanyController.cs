@@ -55,5 +55,12 @@ namespace PL.Controllers
         {
             return HandleServiceResult(_companyService.Delete(id));
         }
+
+        [HttpGet("GetAll")]
+        [NeedsPermission("Administrator")]
+        public IActionResult GetAll()
+        {
+            return HandleServiceResult(_companyService.GetAll());
+        }
     }
 }
