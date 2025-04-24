@@ -7,5 +7,7 @@ namespace BL.Abstract
     {
         public ServiceResult<bool> SelfCreate(OrderPostDto orderDto);
         public ServiceResult<List<OrderGetDto>?> SelfGet();
+        public ServiceResult<OrderGetDto?> SelfGetOne(Guid id);
+        public ServiceResult<List<OrderGetDto?>> GetPaged(int page, int pageSize, Guid? StatusId);
     }
 }
