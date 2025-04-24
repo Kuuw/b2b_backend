@@ -29,7 +29,7 @@ namespace BL.Concrete
 
             var userData = _userRepository.Insert(user);
 
-            if (userData == null)
+            if (userData)
             {
                 return ServiceResult<bool>.InternalServerError("User could not be registered.");
             }
@@ -57,7 +57,7 @@ namespace BL.Concrete
             user = _mapper.Map(userPutDto, user);
             user.UserId = _userContext.UserId;
             var updatedUser = _userRepository.Update(user);
-            if (updatedUser == null)
+            if (updatedUser)
             {
                 return ServiceResult<bool>.InternalServerError("User could not be updated.");
             }
