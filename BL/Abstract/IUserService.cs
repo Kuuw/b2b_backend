@@ -8,8 +8,8 @@ namespace BL.Abstract
         ServiceResult<bool> Register(UserRegister userRegister);
         ServiceResult<List<UserGetDto?>> GetByCompanyId(Guid companyId);
         ServiceResult<UserGetDto> GetSelf();
-
         ServiceResult<bool> UpdateSelf(UserPutDto userPutDto);
+        new ServiceResult<List<UserGetDto>> GetPaged(int page, int pageSize);
         ServiceResult<bool> AdminInsert(UserPostDto userPostDto);
     }
 }
