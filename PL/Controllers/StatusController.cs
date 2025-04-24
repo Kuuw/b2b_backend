@@ -18,7 +18,6 @@ namespace PL.Controllers
             _statusService = statusService;
         }
 
-        // TODO: Implement validation filters.
 
         [HttpGet("{id}")]
         [AllowAnonymous]
@@ -49,6 +48,12 @@ namespace PL.Controllers
         public IActionResult StatusDelete(Guid id)
         {
             return HandleServiceResult(_statusService.Delete(id));
+        }
+
+        [HttpGet("GetAll")]
+        public IActionResult GetStatuses()
+        {
+            return HandleServiceResult(_statusService.GetAll());
         }
     }
 }

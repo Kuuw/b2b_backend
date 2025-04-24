@@ -49,5 +49,13 @@ namespace PL.Controllers
         {
             return HandleServiceResult(_roleService.Delete(id));
         }
+
+        [HttpGet("GetAll")]
+        [Authorize]
+        [NeedsPermission("GetAllRoles", "Administrator")]
+        public IActionResult RoleGetAll()
+        {
+            return HandleServiceResult(_roleService.GetAll());
+        }
     }
 }
