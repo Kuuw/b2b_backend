@@ -4,6 +4,7 @@ using DAL.Abstract;
 using Entities.Context.Abstract;
 using Entities.DTO;
 using Entities.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace BL.Concrete
 {
@@ -62,6 +63,14 @@ namespace BL.Concrete
             }
             return ServiceResult<bool>.Ok(true);
         }
+
+        public new ServiceResult<List<UserGetDto>> GetPaged(int page, int pageSize)
+        {
+            var usersGetDto = _mapper.Map<List<UserGetDto>>(_userRepository.GetPaged(page, pageSize, q => q.Include(x => x.Status).Include(x => x.Role).Include(x => x.Company)));
+
+            return ServiceResult<List<UserGetDto>>.Ok(usersGetDto);
+        }
+
         public ServiceResult<bool> AdminInsert(UserPostDto userPostDto)
         {
             var user = _mapper.Map<User>(userPostDto);
