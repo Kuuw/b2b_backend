@@ -61,5 +61,26 @@ namespace BL.Concrete
 
             return ServiceResult<List<OrderGetDto?>>.Ok(_mapper.Map<List<OrderGetDto?>>(orders));
         }
+
+        public ServiceResult<OrderGetDto?> GetById(Guid id)
+        {
+            var orders = _orderRepository.Where(
+                [],
+                q => q.Include(x => x.Status)
+                      .Include(x => x.OrderItems)
+                      .ThenInclude(x => x.Product)
+                      .Include(x => x.User)
+                      .ThenInclude(x => x.Company)
+                      .Include(x => x.Invoices));
+            
+            if(orders == null || !orders.Any())
+            {
+                return ServiceResult<OrderGetDto?>.NotFound("Order not found.");
+            }
+
+            var order = orders[0];
+
+            return ServiceResult<OrderGetDto?>.Ok(_mapper.Map<OrderGetDto>(order));
+        }
     }
 }
