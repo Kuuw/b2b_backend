@@ -10,5 +10,6 @@ namespace BL.Abstract
         ServiceResult<UserGetDto> GetSelf();
 
         ServiceResult<bool> UpdateSelf(UserPutDto userPutDto);
+        ServiceResult<bool> AdminInsert(UserPostDto userPostDto);
     }
 }

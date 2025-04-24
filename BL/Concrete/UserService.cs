@@ -62,5 +62,15 @@ namespace BL.Concrete
             }
             return ServiceResult<bool>.Ok(true);
         }
+        public ServiceResult<bool> AdminInsert(UserPostDto userPostDto)
+        {
+            var user = _mapper.Map<User>(userPostDto);
+            user.PasswordHash = _bcryptService.HashPassword(userPostDto.PasswordHash);
+            if (_userRepository.Insert(user))
+            {
+                return ServiceResult<bool>.InternalServerError("User could not be registered.");
+            }
+            return ServiceResult<bool>.Ok(true);
+        }
     }
 }

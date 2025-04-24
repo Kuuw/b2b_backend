@@ -46,11 +46,11 @@ namespace PL.Controllers
             return HandleServiceResult(_userService.GetByCompanyId(companyId));
         }
 
-        [HttpPost("/AdminInsert")]
+        [HttpPost("AdminInsert")]
         [NeedsPermission("InsertUser", "Administrator")]
         public IActionResult User([FromBody] UserPostDto data)
         {
-            return HandleServiceResult(_userService.Insert(data));
+            return HandleServiceResult(_userService.AdminInsert(data));
         }
 
         [HttpPost]
