@@ -37,7 +37,14 @@ namespace BL.Concrete
 
         public ServiceResult<List<OrderGetDto>?> SelfGet()
         {
-            var orders = _orderRepository.Where(x => x.UserId == _userContext.UserId);
+            var orders = _orderRepository.Where(
+                [x => x.UserId == _userContext.UserId],
+                q => q.Include(x => x.Status)
+                      .Include(x => x.OrderItems)
+                      .ThenInclude(x => x.Product)
+                      .Include(x => x.User)
+                      .ThenInclude(x => x.Company)
+                      .Include(x => x.Invoices));
             if (orders == null)
             {
                 return ServiceResult<List<OrderGetDto>?>.NotFound("Orders not found.");
