@@ -65,5 +65,21 @@ namespace PL.Controllers
         {
             return HandleServiceResult(_orderService.SelfGet());
         }
+
+        [HttpGet("GetOne/{id}")]
+        [Authorize]
+        [NeedsPermission("GetOrders", "Administrator")]
+        public IActionResult GetOrder(Guid id)
+        {
+            return HandleServiceResult(_orderService.SelfGetOne(id));
+        }
+
+        [HttpGet("GetPaged")]
+        [Authorize]
+        [NeedsPermission("Administrator")]
+        public IActionResult GetPaged(int page, int pageSize, Guid StatusId)
+        {
+            return HandleServiceResult(_orderService.GetPaged(page, pageSize, StatusId));
+        }
     }
 }
