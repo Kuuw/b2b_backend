@@ -4,6 +4,7 @@ using DAL.Abstract;
 using Entities.Context.Abstract;
 using Entities.DTO;
 using Entities.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace BL.Concrete
 {
@@ -43,6 +44,23 @@ namespace BL.Concrete
             }
             return ServiceResult<List<OrderGetDto>?>.Ok(_mapper.Map<List<OrderGetDto>>(orders));
         }
+
+        public ServiceResult<OrderGetDto?> SelfGetOne(Guid id)
+        {
+            var order = _orderRepository.Where([x => x.UserId == _userContext.UserId, x => x.OrderId == id],
+                q => q.Include(x => x.Status)
+                      .Include(x => x.OrderItems)
+                      .ThenInclude(x => x.Product)
+                      .Include(x => x.User)
+                      .ThenInclude(x => x.Company)
+                      .Include(x => x.Invoices));
+            if (order == null)
+            {
+                return ServiceResult<OrderGetDto?>.NotFound("Order not found.");
+            }
+            return ServiceResult<OrderGetDto?>.Ok(_mapper.Map<OrderGetDto>(order[0]));
+        }
+
         public ServiceResult<List<OrderGetDto?>> GetPaged(int page, int pageSize, Guid? StatusId)
         {
             var orders = _orderRepository.Where(
