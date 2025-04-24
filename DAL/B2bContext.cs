@@ -461,8 +461,6 @@ public partial class B2bContext : DbContext
         {
             entity.HasKey(e => e.UserId).HasName("PK__Users__1788CC4C6CCB935F");
 
-            entity.HasIndex(e => e.PhoneNumber, "UQ__Users__85FB4E3802FBB9A1").IsUnique();
-
             entity.HasIndex(e => e.Email, "UQ__Users__A9D1053446082CE9").IsUnique();
 
             entity.Property(e => e.UserId).HasDefaultValueSql("(newid())");
