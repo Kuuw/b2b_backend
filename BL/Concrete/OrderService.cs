@@ -43,5 +43,23 @@ namespace BL.Concrete
             }
             return ServiceResult<List<OrderGetDto>?>.Ok(_mapper.Map<List<OrderGetDto>>(orders));
         }
+        public ServiceResult<List<OrderGetDto?>> GetPaged(int page, int pageSize, Guid? StatusId)
+        {
+            var orders = _orderRepository.Where(
+                [x => !StatusId.HasValue || x.StatusId == StatusId.Value],
+                q => q.Include(x => x.Status)
+                      .Include(x => x.OrderItems)
+                      .ThenInclude(x => x.Product)
+                      .Include(x => x.User)
+                      .ThenInclude(x => x.Company)
+                      .Include(x => x.Invoices));
+
+            if (orders == null || !orders.Any())
+            {
+                return ServiceResult<List<OrderGetDto?>>.NotFound("Orders not found.");
+            }
+
+            return ServiceResult<List<OrderGetDto?>>.Ok(_mapper.Map<List<OrderGetDto?>>(orders));
+        }
     }
 }
