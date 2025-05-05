@@ -27,6 +27,13 @@ namespace PL.Controllers
             return HandleServiceResult(_countryService.GetById(id));
         }
 
+        [HttpGet]
+        [AllowAnonymous]
+        public IActionResult CountryGetAll()
+        {
+            return HandleServiceResult(_countryService.GetAll());
+        }
+
         [HttpPost]
         [Authorize]
         [NeedsPermission("InsertCountry", "Administrator")]
