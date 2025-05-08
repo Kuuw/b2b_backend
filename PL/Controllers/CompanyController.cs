@@ -69,5 +69,12 @@ namespace PL.Controllers
         {
             return HandleServiceResult(_companyService.GetPaged(page, pageSize));
         }
+
+        [HttpGet("GetReports")]
+        [NeedsPermission("Administrator")]
+        public IActionResult GetReports([FromQuery] int page, [FromQuery] int pageSize)
+        {
+            return HandleServiceResult(_companyService.GetReports(page, pageSize));
+        }
     }
 }
