@@ -8,4 +8,5 @@ public class CompanyReportDto
     public double AverageSpent { get; set; }
     public double TotalSpent { get; set; }
     public int TotalOrders { get; set; }
+    public DateTime? LastOrderDate { get; set; }
 }

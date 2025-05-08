@@ -40,7 +40,8 @@ namespace BL.Concrete
                 UserCount = _companyRepository.getUserCount(company.CompanyId),
                 AverageSpent = _companyRepository.getAverageSpent(company.CompanyId),
                 TotalSpent = _companyRepository.getTotalSales(company.CompanyId),
-                TotalOrders = _companyRepository.getTotalOrders(company.CompanyId)
+                TotalOrders = _companyRepository.getTotalOrders(company.CompanyId),
+                LastOrderDate = _companyRepository.lastOrderDate(company.CompanyId),
             }).ToList();
             return ServiceResult<List<CompanyReportDto>>.Ok(companyReports);
         }
