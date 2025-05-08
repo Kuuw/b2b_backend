@@ -48,5 +48,14 @@ namespace DAL.Concrete
             var orderCount = orders.Count();
             return orderCount > 0 ? totalSpent / orderCount : 0;
         }
-}
+
+        public DateTime? lastOrderDate(Guid companyId)
+        {
+            var lastOrder = _context.Orders
+                .Where(o => o.User.CompanyId == companyId)
+                .OrderByDescending(o => o.CreatedAt)
+                .FirstOrDefault();
+            return lastOrder?.CreatedAt;
+        }
+    }
 }

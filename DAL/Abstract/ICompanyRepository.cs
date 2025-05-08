@@ -9,5 +9,6 @@ namespace DAL.Abstract
         public float getTotalSales(Guid companyId);
         public int getTotalOrders(Guid companyId);
         public Double getAverageSpent(Guid companyId);
+        public DateTime? lastOrderDate(Guid companyId);
     }
 }
