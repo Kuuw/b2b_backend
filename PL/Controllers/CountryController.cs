@@ -8,6 +8,7 @@ namespace PL.Controllers
 {
     [ApiController]
     [Route("[controller]")]
+    [Authorize]
     [ApiVersion("1.0")]
     public class CountryController : BaseController
     {
@@ -28,14 +29,13 @@ namespace PL.Controllers
         }
 
         [HttpGet]
-        [AllowAnonymous]
+        [NeedsPermission("ViewCountry", "Administrator")]
         public IActionResult CountryGetAll()
         {
             return HandleServiceResult(_countryService.GetAll());
         }
 
         [HttpPost]
-        [Authorize]
         [NeedsPermission("InsertCountry", "Administrator")]
         public IActionResult CountryPost([FromBody] CountryPostDto data)
         {
@@ -43,7 +43,6 @@ namespace PL.Controllers
         }
 
         [HttpPut]
-        [Authorize]
         [NeedsPermission("UpdateCountry", "Administrator")]
         public IActionResult CountryPut([FromBody] CountryPutDto data)
         {
@@ -51,7 +50,6 @@ namespace PL.Controllers
         }
 
         [HttpDelete("{id}")]
-        [Authorize]
         [NeedsPermission("DeleteCountry", "Administrator")]
         public IActionResult CountryDelete(Guid id)
         {
