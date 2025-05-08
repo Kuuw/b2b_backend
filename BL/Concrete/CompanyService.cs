@@ -29,5 +29,20 @@ namespace BL.Concrete
             var companies = _companyRepository.GetPaged(page, pageSize, q => q.Include(x => x.Status).Include(x => x.Address));
             return ServiceResult<List<CompanyGetDto>>.Ok(mapper.Map<List<CompanyGetDto>>(companies));
         }
+
+        public ServiceResult<List<CompanyReportDto>> GetReports(int page, int pageSize)
+        {
+            var companies = _companyRepository.GetPaged(page, pageSize, q => q.Include(x => x.Status).Include(x => x.Address));
+            var companyReports = companies.Select(company => new CompanyReportDto
+            {
+                CompanyId = company.CompanyId,
+                CompanyName = company.CompanyName,
+                UserCount = _companyRepository.getUserCount(company.CompanyId),
+                AverageSpent = _companyRepository.getAverageSpent(company.CompanyId),
+                TotalSpent = _companyRepository.getTotalSales(company.CompanyId),
+                TotalOrders = _companyRepository.getTotalOrders(company.CompanyId)
+            }).ToList();
+            return ServiceResult<List<CompanyReportDto>>.Ok(companyReports);
+        }
     }
 }
