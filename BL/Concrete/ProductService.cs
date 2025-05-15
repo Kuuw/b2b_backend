@@ -4,6 +4,7 @@ using DAL.Abstract;
 using Entities.DTO;
 using Entities.Models;
 using ImageMagick;
+using Microsoft.EntityFrameworkCore;
 
 namespace BL.Concrete
 {
@@ -21,20 +22,23 @@ namespace BL.Concrete
 
         public ServiceResult<ProductPagedResponse> GetPaged(ProductGetPagedDto productGetPagedDto)
         {
+            var query = _productRepository.Queryable()
+                .Include(x => x.Status)
+                .Include(x => x.ProductImages)
+                .Include(x => x.Category)
+                .Where(x => x.ProductName.Contains(productGetPagedDto.Filter.ProductName ?? ""))
+                .Where(x => productGetPagedDto.Filter.CategoryId == null || x.CategoryId == productGetPagedDto.Filter.CategoryId)
+                .Where(x => productGetPagedDto.Filter.MaxPrice == null || x.Price <= productGetPagedDto.Filter.MaxPrice)
+                .Where(x => productGetPagedDto.Filter.MinPrice == null || x.Price >= productGetPagedDto.Filter.MinPrice);
+
             var response = new ProductPagedResponse();
-            var metadata = new PageMetadata();
-            var items = _productRepository.GetPaged(productGetPagedDto.Page, productGetPagedDto.PageSize, productGetPagedDto.Filter);
+            var items = _productRepository.GetPaged(productGetPagedDto.PageNumber, productGetPagedDto.PageSize, q => query);
 
             List<ProductGetDto> itemsDTO = mapper.Map<List<Product>, List<ProductGetDto>>(items);
             response.Items = itemsDTO;
-
-            int totalItems = _productRepository.GetFilteredCount(productGetPagedDto.Filter);
-            int totalPages = (int)Math.Ceiling((double)totalItems / productGetPagedDto.PageSize);
-            metadata.Page = productGetPagedDto.Page;
-            metadata.PageSize = productGetPagedDto.PageSize;
-            metadata.TotalPages = totalPages;
-
-            response.Metadata = metadata;
+            response.TotalPages = _productRepository.GetPageCount(productGetPagedDto.PageSize, q => query);
+            response.PageSize = productGetPagedDto.PageSize;
+            response.PageNumber = productGetPagedDto.PageNumber;
 
             return ServiceResult<ProductPagedResponse>.Ok(response);
         }
