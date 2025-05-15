@@ -70,11 +70,14 @@ namespace DAL.Concrete
             {
                 query = query.Where(pred).AsQueryable();
             }
-            return query.ToList(); 
+            return query.ToList();
         }
 
-        public List<T> GetPaged(int page, int pageSize, Func<IQueryable<T>, IQueryable<T>> include = null)
+        public List<T> GetPaged(int page, int pageSize, Func<IQueryable<T>, IQueryable<T>>? include)
         {
+            if (page < 1) page = 1;
+            if (pageSize < 1) pageSize = 10;
+
             var query = data.AsQueryable();
             if (include != null)
             {
@@ -83,8 +86,20 @@ namespace DAL.Concrete
             return query.Skip((page - 1) * pageSize).Take(pageSize).ToList();
         }
 
+        public int GetPageCount(int pageSize, Func<IQueryable<T>, IQueryable<T>> filter)
         {
+            var query = data.AsQueryable();
+            if (filter != null)
             {
+                query = filter(query);
+            }
+            var totalCount = query.Count();
+            return (int)Math.Ceiling((double)totalCount / pageSize);
+        }
+
+        public IQueryable<T> Queryable()
+        {
+            return data.AsQueryable();
         }
     }
 }
