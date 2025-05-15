@@ -8,6 +8,7 @@ namespace PL.Controllers
     [ApiController]
     [Route("[controller]")]
     [ApiVersion("1.0")]
+    [AllowAnonymous]
     public class AuthController : BaseController
     {
         private readonly IAuthService _authService;
@@ -20,14 +21,12 @@ namespace PL.Controllers
         }
 
         [HttpPost("Login")]
-        [AllowAnonymous]
         public IActionResult Login([FromBody] UserLogin data)
         {
             return HandleServiceResult(_authService.Authenticate(data));
         }
 
         [HttpPost("Register")]
-        [AllowAnonymous]
         public IActionResult Register([FromBody] UserRegister data)
         {
             return HandleServiceResult(_userService.Register(data));

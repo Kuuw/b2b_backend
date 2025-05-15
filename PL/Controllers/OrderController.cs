@@ -9,6 +9,7 @@ namespace PL.Controllers
     [ApiController]
     [Route("[controller]")]
     [ApiVersion("1.0")]
+    [Authorize]
     public class OrderController : BaseController
     {
         private readonly IOrderService _orderService;
@@ -19,7 +20,6 @@ namespace PL.Controllers
         }
 
         [HttpGet("{id}")]
-        [Authorize]
         [NeedsPermission("ViewOrderDetails", "Administrator")]
         public IActionResult OrderGet(Guid id)
         {
@@ -27,7 +27,6 @@ namespace PL.Controllers
         }
 
         [HttpPost]
-        [Authorize]
         [NeedsPermission("CreateOrder", "Administrator")]
         public IActionResult OrderPost([FromBody] OrderPostDto data)
         {
@@ -35,7 +34,6 @@ namespace PL.Controllers
         }
 
         [HttpPut]
-        [Authorize]
         [NeedsPermission("UpdateOrder", "Administrator")]
         public IActionResult OrderPut([FromBody] OrderPutDto data)
         {
@@ -43,7 +41,6 @@ namespace PL.Controllers
         }
 
         [HttpDelete("{id}")]
-        [Authorize]
         [NeedsPermission("DeleteOrder", "Administrator")]
         public IActionResult OrderDelete(Guid id)
         {
@@ -51,7 +48,6 @@ namespace PL.Controllers
         }
 
         [HttpPost("Create")]
-        [Authorize]
         [NeedsPermission("COFC", "Administrator")]
         public IActionResult CreateOrder([FromBody] OrderPostDto data)
         {
@@ -59,7 +55,6 @@ namespace PL.Controllers
         }
 
         [HttpGet]
-        [Authorize]
         [NeedsPermission("GetOrders", "Administrator")]
         public IActionResult GetOrders()
         {
@@ -67,7 +62,6 @@ namespace PL.Controllers
         }
 
         [HttpGet("GetOne/{id}")]
-        [Authorize]
         [NeedsPermission("GetOrders", "Administrator")]
         public IActionResult GetOrder(Guid id)
         {
@@ -75,7 +69,6 @@ namespace PL.Controllers
         }
 
         [HttpGet("GetPaged")]
-        [Authorize]
         [NeedsPermission("Administrator")]
         public IActionResult GetPaged(int page, int pageSize, Guid StatusId)
         {

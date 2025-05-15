@@ -9,6 +9,7 @@ namespace PL.Controllers
     [ApiController]
     [Route("[controller]")]
     [ApiVersion("1.0")]
+    [Authorize]
     public class AddressController : BaseController
     {
         private readonly IAddressService _addressService;
@@ -19,7 +20,6 @@ namespace PL.Controllers
         }
 
         [HttpGet("{id}")]
-        [Authorize]
         [NeedsPermission("ViewAddressDetails", "Administrator")]
         public IActionResult Address(Guid id)
         {
@@ -27,7 +27,6 @@ namespace PL.Controllers
         }
 
         [HttpGet("CompanyId/{id}")]
-        [Authorize]
         [NeedsPermission("ViewAddressDetails", "Administrator")]
         public IActionResult GetByCompany(Guid companyId)
         {
@@ -35,7 +34,6 @@ namespace PL.Controllers
         }
 
         [HttpGet("UserId/{id}")]
-        [Authorize]
         [NeedsPermission("ViewAddressDetails", "Administrator")]
         public IActionResult GetByUser(Guid userId)
         {
@@ -43,7 +41,6 @@ namespace PL.Controllers
         }
 
         [HttpPost]
-        [Authorize]
         [NeedsPermission("InsertAddress", "Administrator")]
         public IActionResult Address([FromBody] AddressPostDto data)
         {
@@ -51,7 +48,6 @@ namespace PL.Controllers
         }
 
         [HttpPut]
-        [Authorize]
         [NeedsPermission("UpdateAddress", "Administrator")]
         public IActionResult Address([FromBody] AddressPutDto data)
         {
@@ -59,7 +55,6 @@ namespace PL.Controllers
         }
 
         [HttpDelete("{id}")]
-        [Authorize]
         [NeedsPermission("DeleteAddress", "Administrator")]
         public IActionResult DeleteAddress(Guid id)
         {
@@ -67,7 +62,6 @@ namespace PL.Controllers
         }
 
         [HttpGet("GetSelf")]
-        [Authorize]
         [NeedsPermission("ViewAddressDetails", "Administrator")]
         public IActionResult GetSelf()
         {

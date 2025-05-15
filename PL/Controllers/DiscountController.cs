@@ -9,6 +9,7 @@ namespace PL.Controllers
     [ApiController]
     [Route("[controller]")]
     [ApiVersion("1.0")]
+    [Authorize]
     public class DiscountController : BaseController
     {
         private readonly IDiscountService _discountService;
@@ -28,7 +29,6 @@ namespace PL.Controllers
         }
 
         [HttpPost]
-        [Authorize]
         [NeedsPermission("CreateDiscount", "Administrator")]
         public IActionResult DiscountPost([FromBody] DiscountPostDto data)
         {
@@ -36,7 +36,6 @@ namespace PL.Controllers
         }
 
         [HttpPut]
-        [Authorize]
         [NeedsPermission("UpdateDiscount", "Administrator")]
         public IActionResult DiscountPut([FromBody] DiscountPutDto data)
         {
@@ -44,7 +43,6 @@ namespace PL.Controllers
         }
 
         [HttpDelete]
-        [Authorize]
         [NeedsPermission("DeleteDiscount", "Administrator")]
         public IActionResult DiscountDelete(Guid id)
         {

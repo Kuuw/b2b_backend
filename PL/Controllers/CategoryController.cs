@@ -9,6 +9,7 @@ namespace PL.Controllers
     [ApiController]
     [Route("[controller]")]
     [ApiVersion("1.0")]
+    [Authorize]
     public class CategoryController : BaseController
     {
         private readonly ICategoryService _categoryService;
@@ -33,7 +34,6 @@ namespace PL.Controllers
         }
 
         [HttpPost]
-        [Authorize]
         [NeedsPermission("InsertCategory", "Administrator")]
         public IActionResult CategoryPost([FromBody] CategoryPostDto data)
         {
@@ -41,7 +41,6 @@ namespace PL.Controllers
         }
 
         [HttpPut]
-        [Authorize]
         [NeedsPermission("UpdateCategory", "Administrator")]
         public IActionResult CategoryPut([FromBody] CategoryPutDto data)
         {
@@ -49,7 +48,6 @@ namespace PL.Controllers
         }
 
         [HttpDelete("{id}")]
-        [Authorize]
         [NeedsPermission("DeleteCategory", "Administrator")]
         public IActionResult CategoryDelete(Guid id)
         {

@@ -9,6 +9,7 @@ namespace PL.Controllers
     [ApiController]
     [Route("[controller]")]
     [ApiVersion("1.0")]
+    [Authorize]
     public class StatusController : BaseController
     {
         private readonly IStatusService _statusService;
@@ -27,7 +28,6 @@ namespace PL.Controllers
         }
 
         [HttpPost]
-        [Authorize]
         [NeedsPermission("CreateStatus", "Administrator")]
         public IActionResult StatusPost([FromBody] StatusPostDto data)
         {
@@ -35,7 +35,6 @@ namespace PL.Controllers
         }
 
         [HttpPut]
-        [Authorize]
         [NeedsPermission("UpdateStatus", "Administrator")]
         public IActionResult StatusPut([FromBody] StatusPutDto data)
         {
@@ -43,7 +42,6 @@ namespace PL.Controllers
         }
 
         [HttpDelete("{id}")]
-        [Authorize]
         [NeedsPermission("DeleteStatus", "Administrator")]
         public IActionResult StatusDelete(Guid id)
         {
@@ -51,6 +49,7 @@ namespace PL.Controllers
         }
 
         [HttpGet("GetAll")]
+        [AllowAnonymous]
         public IActionResult GetStatuses()
         {
             return HandleServiceResult(_statusService.GetAll());

@@ -9,6 +9,7 @@ namespace PL.Controllers
     [ApiController]
     [Route("[controller]")]
     [ApiVersion("1.0")]
+    [Authorize]
     public class ProductController : BaseController
     {
         private readonly IProductService _productService;
@@ -34,7 +35,6 @@ namespace PL.Controllers
         }
 
         [HttpPost]
-        [Authorize]
         [NeedsPermission("CreateProduct", "Administrator")]
         public IActionResult ProductPost([FromBody] ProductPostDto data)
         {
@@ -42,7 +42,6 @@ namespace PL.Controllers
         }
 
         [HttpPut]
-        [Authorize]
         [NeedsPermission("UpdateProduct", "Administrator")]
         public IActionResult ProductPut([FromBody] ProductPutDto data)
         {
@@ -50,7 +49,6 @@ namespace PL.Controllers
         }
 
         [HttpDelete("{id}")]
-        [Authorize]
         [NeedsPermission("DeleteProduct", "Administrator")]
         public IActionResult ProductDelete(Guid id)
         {
@@ -59,7 +57,6 @@ namespace PL.Controllers
 
         [HttpPost("Image")]
         [RequestSizeLimit(100_000_000)]
-        [Authorize]
         [Consumes("image/jpeg")]
         [NeedsPermission("UpdateProduct", "Administrator")]
         public IActionResult ProductImage(Guid id, [FromBody] Stream documentData)

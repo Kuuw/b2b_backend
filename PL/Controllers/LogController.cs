@@ -19,7 +19,7 @@ namespace PL.Controllers
             _logService = logService;
         }
 
-        // TODO: Implement validation filters.
+        // TODO: Implement validation filters.  
 
         [HttpGet("{id}")]
         [NeedsPermission("ViewLog", "Administrator")]

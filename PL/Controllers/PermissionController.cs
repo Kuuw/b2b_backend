@@ -9,6 +9,7 @@ namespace PL.Controllers
     [ApiController]
     [Route("[controller]")]
     [ApiVersion("1.0")]
+    [Authorize]
     public class PermissionController : BaseController
     {
         private readonly IPermissionService _permissionService;
@@ -28,7 +29,6 @@ namespace PL.Controllers
         }
 
         [HttpPost]
-        [Authorize]
         [NeedsPermission("InsertPermission", "Administrator")]
         public IActionResult PermissionPost([FromBody] PermissionPostDto data)
         {
@@ -36,7 +36,6 @@ namespace PL.Controllers
         }
 
         [HttpPut]
-        [Authorize]
         [NeedsPermission("UpdatePermission", "Administrator")]
         public IActionResult PermissionPut([FromBody] PermissionPutDto data)
         {
@@ -44,7 +43,6 @@ namespace PL.Controllers
         }
 
         [HttpDelete("{id}")]
-        [Authorize]
         [NeedsPermission("DeletePermission", "Administrator")]
         public IActionResult PermissionDelete(Guid id)
         {

@@ -9,6 +9,7 @@ namespace PL.Controllers
     [ApiController]
     [Route("[controller]")]
     [ApiVersion("1.0")]
+    [Authorize]
     public class RoleController : BaseController
     {
         private readonly IRoleService _roleService;
@@ -19,7 +20,6 @@ namespace PL.Controllers
         }
 
         [HttpGet("{id}")]
-        [Authorize]
         [NeedsPermission("ViewRoleDetails", "Administrator")]
         public IActionResult RoleGet(Guid id)
         {
@@ -27,7 +27,6 @@ namespace PL.Controllers
         }
 
         [HttpPost]
-        [Authorize]
         [NeedsPermission("InsertRole", "Administrator")]
         public IActionResult RolePost([FromBody] RolePostDto data)
         {
@@ -35,7 +34,6 @@ namespace PL.Controllers
         }
 
         [HttpPut]
-        [Authorize]
         [NeedsPermission("UpdateRole", "Administrator")]
         public IActionResult RolePut([FromBody] RolePutDto data)
         {
@@ -43,7 +41,6 @@ namespace PL.Controllers
         }
 
         [HttpDelete("{id}")]
-        [Authorize]
         [NeedsPermission("DeleteRole", "Administrator")]
         public IActionResult RoleDelete(Guid id)
         {
@@ -51,7 +48,6 @@ namespace PL.Controllers
         }
 
         [HttpGet("GetAll")]
-        [Authorize]
         [NeedsPermission("GetAllRoles", "Administrator")]
         public IActionResult RoleGetAll()
         {
