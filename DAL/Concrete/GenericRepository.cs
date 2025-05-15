@@ -83,16 +83,8 @@ namespace DAL.Concrete
             return query.Skip((page - 1) * pageSize).Take(pageSize).ToList();
         }
 
-        public PageMetadata GetPageMetadata(int page, int pageSize)
         {
-            var totalCount = data.Count();
-            var totalPages = (int)Math.Ceiling((double)totalCount / pageSize);
-            return new PageMetadata
             {
-                Page = page,
-                PageSize = pageSize,
-                TotalPages = totalPages
-            };
         }
     }
 }

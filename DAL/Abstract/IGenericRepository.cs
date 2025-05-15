@@ -12,6 +12,5 @@ namespace DAL.Abstract
         T? GetById(Guid id);
         public List<T> Where(List<Func<T, bool>> predicate, Func<IQueryable<T>, IQueryable<T>> include = null);
         public List<T> GetPaged(int page, int pageSize, Func<IQueryable<T>, IQueryable<T>> include = null);
-        public PageMetadata GetPageMetadata(int page, int pageSize);
     }
 }
