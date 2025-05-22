@@ -26,10 +26,13 @@ namespace BL.Concrete
                 .Include(x => x.Status)
                 .Include(x => x.ProductImages)
                 .Include(x => x.Category)
+                .Include(x => x.ProductStock)
                 .Where(x => x.ProductName.Contains(productGetPagedDto.Filter.ProductName ?? ""))
                 .Where(x => productGetPagedDto.Filter.CategoryId == null || x.CategoryId == productGetPagedDto.Filter.CategoryId)
                 .Where(x => productGetPagedDto.Filter.MaxPrice == null || x.Price <= productGetPagedDto.Filter.MaxPrice)
-                .Where(x => productGetPagedDto.Filter.MinPrice == null || x.Price >= productGetPagedDto.Filter.MinPrice);
+                .Where(x => productGetPagedDto.Filter.MinPrice == null || x.Price >= productGetPagedDto.Filter.MinPrice)
+                .Where(x => productGetPagedDto.Filter.MinStock == null || x.ProductStock.StockQuantity >= productGetPagedDto.Filter.MinStock)
+                .Where(x => productGetPagedDto.Filter.MaxStock == null || x.ProductStock.StockQuantity <= productGetPagedDto.Filter.MaxStock);
 
             var response = new ProductPagedResponse();
             var items = _productRepository.GetPaged(productGetPagedDto.PageNumber, productGetPagedDto.PageSize, q => query);
@@ -39,6 +42,8 @@ namespace BL.Concrete
             response.TotalPages = _productRepository.GetPageCount(productGetPagedDto.PageSize, q => query);
             response.PageSize = productGetPagedDto.PageSize;
             response.PageNumber = productGetPagedDto.PageNumber;
+            response.MaxPrice = _productRepository.GetMaxPrice();
+            response.MaxStock = _productRepository.GetMaxStock();
 
             return ServiceResult<ProductPagedResponse>.Ok(response);
         }
