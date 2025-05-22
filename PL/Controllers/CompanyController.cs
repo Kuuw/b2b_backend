@@ -76,5 +76,12 @@ namespace PL.Controllers
         {
             return HandleServiceResult(_companyService.GetReports(filter));
         }
+
+        [HttpPost("GetSelfReport")]
+        [NeedsPermission("Administrator", "GetReport")]
+        public IActionResult GetSelfReport([FromBody] ReportPagedFilter filter)
+        {
+            return HandleServiceResult(_companyService.GetSelfReport(filter));
+        }
     }
 }
