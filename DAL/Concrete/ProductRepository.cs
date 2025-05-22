@@ -44,5 +44,17 @@ namespace DAL.Concrete
                 .Include(p => p.Status)
                 .FirstOrDefault(p => p.ProductId == id);
         }
+
+        public Double GetMaxPrice()
+        {
+            var maxPrice = _product.Max(p => p.Price);
+            return maxPrice;
+        }
+
+        public int GetMaxStock()
+        {
+            var maxStock = _product.Max(p => p.ProductStock != null ? p.ProductStock.StockQuantity : 0);
+            return maxStock;
+        }
     }
 }

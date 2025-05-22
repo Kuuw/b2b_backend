@@ -7,5 +7,7 @@ namespace DAL.Abstract
     {
         bool AddImage(ProductImage image);
         new Product? GetById(Guid id);
+        Double GetMaxPrice();
+        int GetMaxStock();
     }
 }
