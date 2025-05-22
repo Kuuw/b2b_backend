@@ -8,5 +8,6 @@ namespace BL.Abstract
         public ServiceResult<CompanyGetDto?> GetByEmail(string email);
         public ServiceResult<List<CompanyGetDto>> GetPaged(int page, int pageSize);
         public ServiceResult<ReportPagedResponse> GetReports(ReportPagedFilter filter);
+        public ServiceResult<ReportSelfResponse?> GetSelfReport(ReportPagedFilter filter);
     }
 }
