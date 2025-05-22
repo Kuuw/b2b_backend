@@ -9,4 +9,5 @@ public class CompanyReportDto
     public double TotalSpent { get; set; }
     public int TotalOrders { get; set; }
     public DateTime? LastOrderDate { get; set; }
+    public List<UserReportDto> Users { get; set; } = new List<UserReportDto>();
 }
