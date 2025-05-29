@@ -5,8 +5,6 @@ using Entities.Context.Abstract;
 using Entities.DTO;
 using Entities.Models;
 using Microsoft.EntityFrameworkCore;
-using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
-using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 
 namespace BL.Concrete
 {
@@ -39,60 +37,9 @@ namespace BL.Concrete
 
         public ServiceResult<ReportPagedResponse> GetReports(ReportPagedFilter filter)
         {
-            IQueryable<Company> query = _companyRepository.Queryable()
-                .Include(x => x.Status)
-                .Include(x => x.Address)
-                .Where(x => x.CompanyName.Contains(filter.Filter.Search ?? ""))
-                .Where(x => filter.Filter.StartDate == null
-                    || x.Users.SelectMany(u => u.Orders).Any(o => o.CreatedAt >= filter.Filter.StartDate))
-                .Where(x => filter.Filter.EndDate == null
-                    || x.Users.SelectMany(u => u.Orders).Any(o => o.CreatedAt <= filter.Filter.EndDate))
-                .Where(x => filter.Filter.MinSpent == null
-                    || x.Users.SelectMany(u => u.Orders)
-                        .SelectMany(o => o.OrderItems)
-                        .Sum(oi => oi.Product.Price * oi.Quantity) >= filter.Filter.MinSpent)
-                .Where(x => filter.Filter.MaxSpent == null
-                    || x.Users.SelectMany(u => u.Orders)
-                        .SelectMany(o => o.OrderItems)
-                        .Sum(oi => oi.Product.Price * oi.Quantity) <= filter.Filter.MaxSpent)
-                .Where(x => filter.Filter.MinOrder == null
-                    || x.Users.SelectMany(u => u.Orders).Count() >= filter.Filter.MinOrder)
-                .Where(x => filter.Filter.MaxOrder == null
-                    || x.Users.SelectMany(u => u.Orders).Count() <= filter.Filter.MaxOrder);
-
-            if (filter.Filter.Users.Count != 0) { query = query.Where(x => x.Users.Any(u => filter.Filter.Users.Contains(u.UserId))); }
-
-            var companies = _companyRepository.GetPaged(
-                    filter.PageNumber,
-                    filter.PageSize,
-                    q => query
-            );
-
-            var companyReports = new List<CompanyReportDto>();
-            foreach (var company in companies)
-            {
-                var report = new CompanyReportDto
-                {
-                    CompanyId = company.CompanyId,
-                    CompanyName = company.CompanyName,
-                    UserCount = _companyRepository.GetUserCount(company.CompanyId, filter.Filter),
-                    TotalSpent = _companyRepository.GetTotalSales(company.CompanyId, filter.Filter),
-                    TotalOrders = _companyRepository.GetTotalOrders(company.CompanyId, filter.Filter),
-                    AverageSpent = _companyRepository.GetAverageSpent(company.CompanyId, filter.Filter),
-                    LastOrderDate = _companyRepository.LastOrderDate(company.CompanyId, filter.Filter),
-                    Users = company.Users.Select(u => new UserReportDto
-                    {
-                        UserId = u.UserId,
-                        FirstName = u.FirstName,
-                        LastName = u.LastName,
-                        TotalSpent = _userRepository.GetTotalSales(u.UserId, filter.Filter),
-                        TotalOrders = _userRepository.GetTotalOrders(u.UserId, filter.Filter),
-                        AverageSpent = _userRepository.GetAverageSpent(u.UserId, filter.Filter),
-                        LastOrderDate = _userRepository.LastOrderDate(u.UserId, filter.Filter)
-                    }).ToList()
-                };
-                companyReports.Add(report);
-            }
+            var query = BuildCompanyReportQuery(filter.Filter);
+            var companies = _companyRepository.GetPaged(filter.PageNumber, filter.PageSize, q => query);
+            var companyReports = companies.Select(company => CreateCompanyReport(company, filter.Filter)).ToList();
 
             var response = new ReportPagedResponse
             {
@@ -111,39 +58,15 @@ namespace BL.Concrete
         {
             var userId = _userContext.UserId;
             var user = _userRepository.GetById(userId);
+            var company = _companyRepository.GetById(user!.CompanyId);
 
             filter.Filter.Search = null;
 
-            var company = _companyRepository.GetById(user!.CompanyId);
-            var users = _userRepository.GetPaged(filter.PageNumber, filter.PageSize, x => x.Where(x => x.CompanyId == user.CompanyId));
+            var users = _userRepository.GetPaged(filter.PageNumber, filter.PageSize,
+                x => x.Where(x => x.CompanyId == user.CompanyId));
 
-            var userReports = new List<UserReportDto>();
-            foreach (var u in users)
-            {
-                var userReport = new UserReportDto
-                {
-                    UserId = u.UserId,
-                    FirstName = u.FirstName,
-                    LastName = u.LastName,
-                    TotalSpent = _userRepository.GetTotalSales(u.UserId, filter.Filter),
-                    TotalOrders = _userRepository.GetTotalOrders(u.UserId, filter.Filter),
-                    AverageSpent = _userRepository.GetAverageSpent(u.UserId, filter.Filter),
-                    LastOrderDate = _userRepository.LastOrderDate(u.UserId, filter.Filter)
-                };
-                userReports.Add(userReport);
-            }
-
-            var report = new CompanyReportDto
-            {
-                CompanyId = company.CompanyId,
-                CompanyName = company.CompanyName,
-                UserCount = _companyRepository.GetUserCount(company.CompanyId, filter.Filter),
-                TotalSpent = _companyRepository.GetTotalSales(company.CompanyId, filter.Filter),
-                TotalOrders = _companyRepository.GetTotalOrders(company.CompanyId, filter.Filter),
-                AverageSpent = _companyRepository.GetAverageSpent(company.CompanyId, filter.Filter),
-                LastOrderDate = _companyRepository.LastOrderDate(company.CompanyId, filter.Filter),
-                Users = userReports
-            };
+            var userReports = users.Select(u => CreateUserReport(u, filter.Filter)).ToList();
+            var companyReport = CreateCompanyReport(company, filter.Filter, userReports);
 
             var result = new ReportSelfResponse
             {
@@ -152,10 +75,93 @@ namespace BL.Concrete
                 MonthlyStats = _companyRepository.GetMonthlyStats(company.CompanyId, filter.Filter),
                 UsersPageNumber = filter.PageNumber,
                 UsersPageSize = filter.PageSize,
-                Report = report
+                Report = companyReport
             };
 
             return ServiceResult<ReportSelfResponse?>.Ok(result);
+        }
+
+        private IQueryable<Company> BuildCompanyReportQuery(ReportFilter filter)
+        {
+            var query = _companyRepository.Queryable()
+                .Include(x => x.Status)
+                .Include(x => x.Address)
+                .Where(x => x.CompanyName.Contains(filter.Search ?? ""));
+
+            query = ApplyDateFilters(query, filter);
+            query = ApplySpentFilters(query, filter);
+            query = ApplyOrderFilters(query, filter);
+
+            if (filter.Users.Count != 0)
+                query = query.Where(x => x.Users.Any(u => filter.Users.Contains(u.UserId)));
+
+            return query;
+        }
+
+        private IQueryable<Company> ApplyDateFilters(IQueryable<Company> query, ReportFilter filter)
+        {
+            if (filter.StartDate != null)
+                query = query.Where(x => x.Users.SelectMany(u => u.Orders).Any(o => o.CreatedAt >= filter.StartDate));
+
+            if (filter.EndDate != null)
+                query = query.Where(x => x.Users.SelectMany(u => u.Orders).Any(o => o.CreatedAt <= filter.EndDate));
+
+            return query;
+        }
+
+        private IQueryable<Company> ApplySpentFilters(IQueryable<Company> query, ReportFilter filter)
+        {
+            if (filter.MinSpent != null)
+                query = query.Where(x => x.Users.SelectMany(u => u.Orders)
+                    .SelectMany(o => o.OrderItems)
+                    .Sum(oi => oi.Product.Price * oi.Quantity) >= filter.MinSpent);
+
+            if (filter.MaxSpent != null)
+                query = query.Where(x => x.Users.SelectMany(u => u.Orders)
+                    .SelectMany(o => o.OrderItems)
+                    .Sum(oi => oi.Product.Price * oi.Quantity) <= filter.MaxSpent);
+
+            return query;
+        }
+
+        private IQueryable<Company> ApplyOrderFilters(IQueryable<Company> query, ReportFilter filter)
+        {
+            if (filter.MinOrder != null)
+                query = query.Where(x => x.Users.SelectMany(u => u.Orders).Count() >= filter.MinOrder);
+
+            if (filter.MaxOrder != null)
+                query = query.Where(x => x.Users.SelectMany(u => u.Orders).Count() <= filter.MaxOrder);
+
+            return query;
+        }
+
+        private CompanyReportDto CreateCompanyReport(Company company, ReportFilter filter, List<UserReportDto>? userReports = null)
+        {
+            return new CompanyReportDto
+            {
+                CompanyId = company.CompanyId,
+                CompanyName = company.CompanyName,
+                UserCount = _companyRepository.GetUserCount(company.CompanyId, filter),
+                TotalSpent = _companyRepository.GetTotalSales(company.CompanyId, filter),
+                TotalOrders = _companyRepository.GetTotalOrders(company.CompanyId, filter),
+                AverageSpent = _companyRepository.GetAverageSpent(company.CompanyId, filter),
+                LastOrderDate = _companyRepository.LastOrderDate(company.CompanyId, filter),
+                Users = userReports ?? company.Users.Select(u => CreateUserReport(u, filter)).ToList()
+            };
+        }
+
+        private UserReportDto CreateUserReport(User user, ReportFilter filter)
+        {
+            return new UserReportDto
+            {
+                UserId = user.UserId,
+                FirstName = user.FirstName,
+                LastName = user.LastName,
+                TotalSpent = _userRepository.GetTotalSales(user.UserId, filter),
+                TotalOrders = _userRepository.GetTotalOrders(user.UserId, filter),
+                AverageSpent = _userRepository.GetAverageSpent(user.UserId, filter),
+                LastOrderDate = _userRepository.LastOrderDate(user.UserId, filter)
+            };
         }
     }
 }
