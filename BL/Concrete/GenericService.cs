@@ -46,6 +46,14 @@ namespace BL.Concrete
 
         public ServiceResult<bool> Update(TPutDto data)
         {
+            // Write data to console for debugging purposes
+            Console.WriteLine($"Updating {typeof(TModel).Name} with data: {data}");
+            // Write fields of data to console
+            foreach (var prop in typeof(TPutDto).GetProperties())
+            {
+                Console.WriteLine($"{prop.Name}: {prop.GetValue(data)}");
+            }
+
             var model = _mapper.Map<TModel>(data);
             return ServiceResult<bool>.Ok(_repository.Update(model));
         }

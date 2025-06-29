@@ -7,7 +7,7 @@ namespace DAL.Concrete
 {
     public class CompanyRepository : GenericRepository<Company>, ICompanyRepository
     {
-        private readonly B2bContext _context = new B2bContext();
+        private readonly B2bContext _context;
         private readonly DbSet<Company> _company;
 
         public CompanyRepository(B2bContext context)
